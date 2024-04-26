@@ -1,0 +1,57 @@
+.container {
+    width: 300px;
+    height: 450px;
+    background-color: white;
+    
+    position: absolute;
+    top:0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    
+    margin: auto;
+
+    border-radius: 30px;
+}
+h1{
+    text-align: center;
+}
+.group{
+    width: 200px;
+    height: 250px;
+    
+    margin: auto;
+}
+.inp-group{
+    width: 200px;
+    height: 25px;
+
+    display: block;
+    margin: auto;
+    margin-bottom: 10px;
+}
+img{
+    height: 70px;
+
+    display: block;
+    margin: auto;
+    margin-top: 25px;
+}
+h1{
+    margin: 15px;
+}
+button{
+    display: block;
+    margin: auto;
+
+    border-radius: 10px;
+
+    margin-top: 10px;
+    width: 75px;
+    height: 25px;
+}
+.confirm{
+    width: 100px;
+    height: 35px;
+}
+

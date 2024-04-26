@@ -1,0 +1,60 @@
+.container{
+    background-color: rgba(237,226,226,0.8);
+    background-size: 100vw 100vh;
+
+    position: absolute;
+    top:0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    
+    margin: auto;
+}
+.flex{
+    display: flex;
+    align-items: center;
+}
+h1{
+    text-align: center;
+    margin-top: 50px;
+}
+
+.rules{
+    background-color:rgba(0,0,0,0);;
+    width: 45vw;
+    height: 45vh;
+
+    text-align: center;
+    
+}
+.photo{
+    height: 200px;
+
+    display: block;
+    padding-top: 8px;
+    padding-left: 5px;
+}
+.backdrop{
+    background-color: white;
+    width: 210px;
+    height: 210px;
+
+    border-radius: 20px;
+    margin: auto;
+}
+.btn{
+    width: 80px;
+    height: 40px;
+
+    position: relative;
+    top: 150px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    
+    margin: auto;
+}
+.txt{
+    width: 210px;
+    position: relative;
+}

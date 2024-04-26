@@ -1,0 +1,94 @@
+.main{
+    width: 300px;
+    height: 600px;
+    background: rgba(0,0,0,0);
+
+    position: absolute;
+    top:0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    
+    margin: auto;
+}
+.block-menu{
+    width: 300px;
+    height: 450px;
+    background-color: white;
+    
+    position: absolute;
+    top:0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    
+    margin: auto;
+
+    border-radius: 30px;
+}
+.block-authors{
+    position: relative;
+    top: 530px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    
+    margin: auto;
+}
+#authors{
+    width: 80px;
+    height: 30px;
+}
+button.menu{
+    display: block;
+    margin: auto;
+
+    border-radius: 10px;
+
+    margin-top: 20px;
+    width: 150px;
+    height: 40px;
+}
+img{
+    height: 70px;
+
+    display: block;
+    margin: auto;
+    margin-top: 25px;
+    margin-bottom: 35px;
+}
+.ghost{
+    position: absolute;
+    top:0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+
+    background-color: white;
+    width: 600px;
+    height: 450px;
+    border-radius: 30px;
+
+    display: none;
+    z-index: 1;
+}
+.allAuthors{
+    display: flex;
+    vertical-align: middle;
+}
+.authors{
+    text-align: center;
+    margin: 1vw, 100px;
+    width: 20vw;
+    height: 25vh;
+}
+a{
+    margin-top: 200px;
+}
+p{
+    min-height: 55px;
+}
+.MainActors{
+    display: none;
+}
