@@ -22,7 +22,7 @@ const RegPage = () => {
                     navigate('/', {replace: false})
                 }
             }
-            else alert("invalid password");
+            else alert("Invalid password length");
         }
         else alert("Invalid e-mail");
     }

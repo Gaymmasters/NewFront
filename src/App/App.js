@@ -6,6 +6,7 @@ import MenuPage from './component/menu/MenuPage';
 import PrivateRoute from '../features/privateRoute';
 import RulesPage from './component/rules/RulesPage';
 import SettingsPage from './component/settings/SettingsPage';
+import CreateGamePage from './component/CreateGame/CreateGamePage';
 
 const App = () => {
   return(
@@ -22,6 +23,9 @@ const App = () => {
             </Route>
             <Route path = "/settings" element={<PrivateRoute way={"/login"}/>}>
               <Route path='/settings' element={<SettingsPage/>} />
+            </Route>
+            <Route path = "/creategame" element={<PrivateRoute way={"/login"}/>}>
+              <Route path='/creategame' element={<CreateGamePage/>} />
             </Route>
           </Routes>
         </BrowserRouter>

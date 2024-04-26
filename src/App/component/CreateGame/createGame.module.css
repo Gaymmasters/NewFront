@@ -1,0 +1,47 @@
+.cgpContainer{
+    width: 300px;
+    height: 450px;
+    background-color: white;
+    
+    position: absolute;
+    top:0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    
+    margin: auto;
+
+    border-radius: 30px;
+}
+.cgpMain{
+    width: 200px;
+    margin-top: 40px;
+    margin-left: 50px;
+
+}
+.cgpInp{
+    width: 200px;
+    height: 25px;
+
+    margin-bottom: 20px;
+}
+.cgpGhost{
+    width: 200px;
+    margin-left: 50px;
+    margin-top: 20px;
+
+    z-index: 1;
+    display: none;
+}
+.cgpButtons{
+    width: 95%;
+    text-align: center;
+    margin-top: 30px;
+
+    z-index: 1;
+    position: absolute;
+}
+.cgpBtn{
+    display: inline-block;
+    margin-left: 30px;
+}

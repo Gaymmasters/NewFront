@@ -35,7 +35,7 @@ function hide() {
                     <Link to=''>
                         <button className='menu'>Find game</button>
                     </Link>
-                    <Link to=''>
+                    <Link to='/creategame'>
                         <button className='menu'>Create game</button>
                     </Link>
                     <Link to='/rules'>
