@@ -16,25 +16,24 @@ const SettingsPage = () => {
         const CurrentTile = document.getElementById("skin-"+localStorage.getItem("skin"));
         CurrentTile.className = "selected";
     }, [])
-    const [newInf, setNewInf] = useState({login: localStorage.getItem("login"), password: localStorage.getItem("password"), skin: localStorage.getItem("skin")});
-    async function ChangeInf(){
+    const [newInf, setNewInf] = useState({login: localStorage.getItem(""), skin: localStorage.getItem("skin")});
+    async function ChangeName(){
         if (!(newInf.login.trim() === '')){
             const res = await UserReg.ChangeInf(newInf);
             if (!res.result){
                 alert("Error: " + res.result);
             }
             else{
-                moveToLocalStore({...res,});
-                setNewInf({login: "", password: localStorage.getItem("password"), skin: localStorage.getItem("skin")})
+                moveToLocalStore(res);
+                setNewInf({login: "", skin: localStorage.getItem("skin")})
             }
         }
         else{
             alert("Invalid login")
-            setNewInf({login: "", password: localStorage.getItem("password"), skin: localStorage.getItem("skin")})
+            setNewInf({login: "", skin: localStorage.getItem("skin")})
         }
     } 
     
-    const [selectedTile, setSelectedTile] = useState(localStorage.getItem("skin"));
     const tiles = [
         {id: 0, image: skin0, alt: "skin0"},
         {id: 1, image: skin1, alt: "skin1"},
@@ -50,9 +49,18 @@ const SettingsPage = () => {
         CurrentTile.className = "tile selected";
         PrevTile.className = "tile"
         localStorage.setItem("skin", id);
-        setSelectedTile(id);
     };
-
+    
+    async function ChangeSkin(){
+        setNewInf({login: localStorage.getItem("login"), skin: localStorage.getItem("skin")})
+        const res = await UserReg.ChangeInf(newInf);
+        if (!res.result){
+            alert("Error: " + res.result);
+        }
+        else{
+            moveToLocalStore(res);
+        }
+    }
     return(
         <div className={classes.settingsContainer}>
             <h1>Settings</h1>
@@ -64,7 +72,7 @@ const SettingsPage = () => {
                 className={classes.inpName}
                 placeholder={localStorage.getItem("login")}
                 onChange={e => setNewInf({...newInf, login: e.target.value})}/> 
-                <button className={classes.btnChange} onClick={ChangeInf}>Change</button>
+                <button className={classes.btnChange} onClick={ChangeName}>Change</button>
             </div>
             <div className={classes.sk}>
                 <label className="tile-label">Skin</label>
@@ -78,7 +86,7 @@ const SettingsPage = () => {
                         <img className="image" src={tile.image} alt={tile.alt} />
                     </div>))}
                 </div>
-                <button className={classes.btnChange} onClick={ChangeInf}>Change</button>
+                <button className={classes.btnChange} onClick={ChangeSkin}>Change</button>
             </div>
             <Link to="/">
                 <button className={classes.btnBack}>Back</button>
