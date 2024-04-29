@@ -21,6 +21,7 @@
 .selected {
   border: 2px solid rgb(60, 214, 84);
   background-color: white;
+  border-radius: 10px;
 }
 .image{
   height: 50px;

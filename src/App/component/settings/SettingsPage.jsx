@@ -78,7 +78,7 @@ const SettingsPage = () => {
                         <img className="image" src={tile.image} alt={tile.alt} />
                     </div>))}
                 </div>
-                <button className={classes.btnChange} onClick={() => {console.log(selectedTile)}}>Change</button>
+                <button className={classes.btnChange} onClick={ChangeInf}>Change</button>
             </div>
             <Link to="/">
                 <button className={classes.btnBack}>Back</button>
