@@ -52,8 +52,7 @@ const SettingsPage = () => {
     };
     
     async function ChangeSkin(){
-        setNewInf({login: localStorage.getItem("login"), skin: localStorage.getItem("skin")})
-        const res = await UserReg.ChangeInf(newInf);
+        const res = await UserReg.ChangeInf({login: localStorage.getItem("login"), skin: +localStorage.getItem("skin")});
         if (!res.result){
             alert("Error: " + res.result);
         }
