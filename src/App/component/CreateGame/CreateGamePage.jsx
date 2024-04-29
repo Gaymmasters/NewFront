@@ -7,30 +7,30 @@ import { moveToLocalStore } from "../../../features/store";
 const CreateGamePage = () =>{
     const [data, setData] = useState({});
     const navigate = useNavigate();
+    const [isPrivate, setIsPrivate] = useState(false)
     async function createGame(){
-        if (data.gamePassword >= 5 && data.gamePassword <= 20){
+        if (isPrivate || (data.gamePassword.length >= 5 && data.gamePassword.length <= 20)){
             const res = await UserReg.CreateGame({...data, isPrivate: isPrivate, player1Id: localStorage.getItem("id")})
             if (!res.result){
                 alert("Error:" + res.message);
             }
             else{
-                moveToLocalStore({gameId: res.id, gameName: res.name, moves: JSON.stringify(res.moves), winFlag: res.winflag});
-                navigate('game/'+res.id, {replace: true})
+                moveToLocalStore({gameId: res.id, gameName: res.name, moves: JSON.stringify(res.moves), winFlag: res.winFlag});
+                navigate('/game/'+res.id, {replace: true})
             }
         }
         else alert("Invalid password length")
     }
 
-    let isPrivate = false;
     function hide() {
         const Block = document.getElementById("cgp");
         if (isPrivate){
             Block.style.display = "none";
-            isPrivate = false;
+            setIsPrivate(false)
         }
         else{
             Block.style.display = "block";
-            isPrivate = true;
+            setIsPrivate(true)
         }
     }
     return(

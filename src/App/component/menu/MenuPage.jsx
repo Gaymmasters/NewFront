@@ -32,7 +32,7 @@ function hide() {
             <div className='main'>
                 <div className='block-menu'>
                     <img src= {logo} alt = "logo"></img>
-                    <Link to=''>
+                    <Link to='/findgame'>
                         <button className='menu'>Find game</button>
                     </Link>
                     <Link to='/creategame'>

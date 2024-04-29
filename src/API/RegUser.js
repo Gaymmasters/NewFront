@@ -31,7 +31,14 @@ export default class UserReg{
     }
     static async CreateGame(data) {
         try{
-            const res = await axios.put("http://localhost:5000/api/create",{...data})
+            const res = await axios.post("http://localhost:5000/api/create",{...data})
+            return res.data
+        }catch(error){ console.log(error) }
+        
+    }
+    static async GamesList() {
+        try{
+            const res = await axios.get("http://localhost:5000/api/game")
             return res.data
         }catch(error){ console.log(error) }
         

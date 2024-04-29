@@ -1,0 +1,32 @@
+.fgpContainer{
+    width: 450px;
+    height: 450px;
+    background-color: white;
+    
+    position: absolute;
+    top:0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    
+    margin: auto;
+
+    border-radius: 30px;
+}
+.fgpPosts{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.post{
+    background-color: antiquewhite;
+    width: 280px;
+    height: 40px;
+
+    display: flex;
+    padding-left: 20px;
+    margin-top: 5px;
+}
+.postName{
+    margin-top: 12px;
+}

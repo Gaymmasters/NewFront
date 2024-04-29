@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from "react";
 import classes from "./settings.module.css";
+import "./settings.css";
 import { Link } from "react-router-dom";
 import { moveToLocalStore } from "../../../features/store";
 import UserReg from "../../../API/RegUser";
-import SkinBlock from "./SkinBlock";
-
+import skin0  from "./../img/skin0.png";
+import skin1  from "./../img/skin1.png";
+import skin2  from "./../img/skin2.png";
+import skin3  from "./../img/skin3.png";
+import skin4  from "./../img/skin4.png";
+import skin5  from "./../img/skin5.png";
 
 const SettingsPage = () => {
-    const chosenColor = "rgb(1,1,1)"
-    const notChosenColor = "rgba(1,1,1,0.5)"
     useEffect(() => {
-        const CurrentBlock = document.getElementById("skin-"+localStorage.getItem("skin"));
-        CurrentBlock.style.backgroundColor = chosenColor;
+        const CurrentTile = document.getElementById("skin-"+localStorage.getItem("skin"));
+        CurrentTile.className = "selected";
     }, [])
     const [newInf, setNewInf] = useState({login: localStorage.getItem("login"), password: localStorage.getItem("password"), skin: localStorage.getItem("skin")});
     async function ChangeInf(){
@@ -31,22 +34,24 @@ const SettingsPage = () => {
         }
     } 
     
-    function ChangeSkin(id){
-        let prevSkinId = localStorage.getItem('skin');
-        let Skin = id[5];
-        const CurrentBlock = document.getElementById(id);
-        CurrentBlock.style.backgroundColor = chosenColor;
-        const PrevBlock = document.getElementById("skin-"+prevSkinId);
-        if (PrevBlock !== null){
-            PrevBlock.style.backgroundColor = notChosenColor;
-        }
-        localStorage.setItem("skin", Skin);
-        console.log(Skin, CurrentBlock, PrevBlock)
-    }
+    const [selectedTile, setSelectedTile] = useState(localStorage.getItem("skin"));
+    const tiles = [
+        {id: 0, image: skin0, alt: "skin0"},
+        {id: 1, image: skin1, alt: "skin1"},
+        {id: 2, image: skin2, alt: "skin2"},
+        {id: 3, image: skin3, alt: "skin3"},
+        {id: 4, image: skin4, alt: "skin4"},
+        {id: 5, image: skin5, alt: "skin5"},
+    ];
+    const handleTileClick = (id) => {
+        const CurrentTile = document.getElementById("skin-"+id);
+        const PrevTile = document.getElementById("skin-"+localStorage.getItem("skin"));
 
-    async function sendSkin(){
-        
-    }
+        CurrentTile.className = "tile selected";
+        PrevTile.className = "tile"
+        localStorage.setItem("skin", id);
+        setSelectedTile(id);
+    };
 
     return(
         <div className={classes.settingsContainer}>
@@ -62,16 +67,21 @@ const SettingsPage = () => {
                 <button className={classes.btnChange} onClick={ChangeInf}>Change</button>
             </div>
             <div className={classes.sk}>
-                <SkinBlock func={ChangeSkin}  id="skin-0" />
-                <SkinBlock func={ChangeSkin}  id="skin-1" />
-                <SkinBlock func={ChangeSkin}  id="skin-2" />
-                <SkinBlock func={ChangeSkin}  id="skin-3" />
-                <SkinBlock func={ChangeSkin}  id="skin-4" />
-                <SkinBlock func={ChangeSkin}  id="skin-5" />
-                <button className={classes.btnChange}>Change</button>
+                <label className="tile-label">Skin</label>
+                <div className="tile-grid">
+                    {tiles.map(tile => (
+                    <div
+                        key={tile.id}
+                        id = {"skin-"+tile.id}
+                        className="tile"
+                        onClick={() => handleTileClick(tile.id)}>
+                        <img className="image" src={tile.image} alt={tile.alt} />
+                    </div>))}
+                </div>
+                <button className={classes.btnChange} onClick={() => {console.log(selectedTile)}}>Change</button>
             </div>
             <Link to="/">
-                <button className={classes.bthBack} onClick={sendSkin}>Back</button>
+                <button className={classes.btnBack}>Back</button>
             </Link>
         </div>
     )
