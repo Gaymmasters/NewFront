@@ -16,24 +16,36 @@ const SettingsPage = () => {
         const CurrentTile = document.getElementById("skin-"+localStorage.getItem("skin"));
         CurrentTile.className = "selected";
     }, [])
-    const [newInf, setNewInf] = useState({login: localStorage.getItem(""), skin: localStorage.getItem("skin")});
-    async function ChangeName(){
-        if (!(newInf.login.trim() === '')){
-            const res = await UserReg.ChangeInf(newInf);
+    const [newLogin, setNewLogin] = useState('');
+    async function changeName(){
+        if (!(newLogin.login.trim() === '')){
+            const res = await UserReg.ChangeLogin(newLogin);
             if (!res.result){
                 alert("Error: " + res.result);
             }
             else{
-                moveToLocalStore(res);
-                setNewInf({login: "", skin: localStorage.getItem("skin")})
+                localStorage.setItem("login", newLogin);
+                setNewLogin("")
             }
         }
         else{
             alert("Invalid login")
-            setNewInf({login: "", skin: localStorage.getItem("skin")})
         }
     } 
     
+    const [newSkin, setNewSkin] = useState(+localStorage.getItem("skin"));
+    async function changeSkin(){
+        if (localStorage.getItem("skin") != newSkin){
+            const res = await UserReg.ChangeSkin(newSkin);
+            if (!res.result){
+                alert("Error: " + res.result);
+            }
+            else{
+                localStorage.setItem("skin",newSkin);
+            }
+        } 
+    }
+
     const tiles = [
         {id: 0, image: skin0, alt: "skin0"},
         {id: 1, image: skin1, alt: "skin1"},
@@ -43,35 +55,29 @@ const SettingsPage = () => {
         {id: 5, image: skin5, alt: "skin5"},
     ];
     const handleTileClick = (id) => {
-        const CurrentTile = document.getElementById("skin-"+id);
-        const PrevTile = document.getElementById("skin-"+localStorage.getItem("skin"));
+        if (id !== newSkin){
+            const CurrentTile = document.getElementById("skin-"+id);
+            const PrevTile = document.getElementById("skin-"+newSkin);
 
-        CurrentTile.className = "tile selected";
-        PrevTile.className = "tile"
-        localStorage.setItem("skin", id);
+            CurrentTile.className = "tile selected";
+            PrevTile.className = "tile"
+            setNewSkin(id)
+            console.log(newSkin)
+        };
     };
-    
-    async function ChangeSkin(){
-        const res = await UserReg.ChangeInf({login: localStorage.getItem("login"), skin: +localStorage.getItem("skin")});
-        if (!res.result){
-            alert("Error: " + res.result);
-        }
-        else{
-            moveToLocalStore(res);
-        }
-    }
+
     return(
         <div className={classes.settingsContainer}>
             <h1>Settings</h1>
             <div className={classes.names}>
                 <label className={classes.label}>Name</label>
                 <input
-                value={newInf.login}
+                value={newLogin}
                 type = "text"
                 className={classes.inpName}
                 placeholder={localStorage.getItem("login")}
-                onChange={e => setNewInf({...newInf, login: e.target.value})}/> 
-                <button className={classes.btnChange} onClick={ChangeName}>Change</button>
+                onChange={e => setNewLogin(e.target.value)}/> 
+                <button className={classes.btnChange} onClick={changeName}>Change</button>
             </div>
             <div className={classes.sk}>
                 <label className="tile-label">Skin</label>
@@ -85,7 +91,7 @@ const SettingsPage = () => {
                         <img className="image" src={tile.image} alt={tile.alt} />
                     </div>))}
                 </div>
-                <button className={classes.btnChange} onClick={ChangeSkin}>Change</button>
+                <button className={classes.btnChange} onClick={changeSkin}>Change</button>
             </div>
             <Link to="/">
                 <button className={classes.btnBack}>Back</button>

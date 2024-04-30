@@ -48,6 +48,12 @@ const CreateGamePage = () =>{
                 id = "checkbox"
                 onClick={hide}/>
                 <label to="checkbox">Private</label>
+                <input 
+                type="checkbox" 
+                className={classes.cgpCheckbox}
+                id = "checkbox"
+                onClick={hide}/>
+                <label to="checkbox">Game with bot</label>
             </div>
 
             <div className={classes.cgpGhost} id="cgp">
