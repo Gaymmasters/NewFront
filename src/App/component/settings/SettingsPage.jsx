@@ -18,8 +18,8 @@ const SettingsPage = () => {
     }, [])
     const [newLogin, setNewLogin] = useState('');
     async function changeName(){
-        if (!(newLogin.login.trim() === '')){
-            const res = await UserReg.ChangeLogin(newLogin);
+        if (!(newLogin.trim() === '')){
+            const res = await UserReg.ChangeLogin({login: newLogin});
             if (!res.result){
                 alert("Error: " + res.result);
             }

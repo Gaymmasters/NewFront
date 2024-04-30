@@ -24,14 +24,14 @@ export default class UserReg{
     }
     static async ChangeLogin(data) {
         try{
-            const res = await axios.put("http://localhost:5000/api/user/login" + localStorage.getItem("id"),{...data})
+            const res = await axios.put("http://localhost:5000/api/user/login/" + localStorage.getItem("id"),{...data})
             return res.data
         }catch(error){ console.log(error) }
         
     }
     static async ChangeSkin(data) {
         try{
-            const res = await axios.put("http://localhost:5000/api/user/skin" + localStorage.getItem("id"),{...data})
+            const res = await axios.put("http://localhost:5000/api/user/skin/" + localStorage.getItem("id"),{...data})
             return res.data
         }catch(error){ console.log(error) }
         
