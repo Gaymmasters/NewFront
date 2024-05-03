@@ -14,14 +14,35 @@
     border-radius: 30px;
 }
 .fgpPosts{
+    background-color: rgb(227, 219, 219, 0.2);
+    width: 350px;
+    height: 300px;
+    margin-left: 50px;
+    margin-bottom: 30px;
+    border-radius: 10px;
+
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
 }
+.fgpInp{
+    width: 300px;
+    height: 30px;
+    background-color: rgb(237, 226, 226, 0.54);
+    border: 0px solid white;
+    margin-top: 10px;
+    border-radius: 10px;
+}
+.fgpMenu{
+    width: 300px;
+    height: 250px;
+    overflow: auto;
+}
 .post{
-    background-color: antiquewhite;
-    width: 280px;
+    background-color: rgb(237, 226, 226, 0.54);
+    width: 250px;
     height: 40px;
+    border-radius: 10px;
 
     display: flex;
     padding-left: 20px;
@@ -29,4 +50,16 @@
 }
 .postName{
     margin-top: 12px;
+}
+.imagePrivateGame{
+    width: 20px;
+    height: 25px;
+
+    margin-top: 7px;
+    margin-bottom: 0;
+    margin-right: 0;
+    margin-left: 145px;
+
+    display: flex;
+
 }

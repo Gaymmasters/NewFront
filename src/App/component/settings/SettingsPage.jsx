@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import classes from "./settings.module.css";
 import "./settings.css";
 import { Link } from "react-router-dom";
-import { moveToLocalStore } from "../../../features/store";
 import UserReg from "../../../API/RegUser";
 import skin0  from "./../img/skin0.png";
 import skin1  from "./../img/skin1.png";
@@ -35,13 +34,13 @@ const SettingsPage = () => {
     
     const [newSkin, setNewSkin] = useState(+localStorage.getItem("skin"));
     async function changeSkin(){
-        if (localStorage.getItem("skin") != newSkin){
-            const res = await UserReg.ChangeSkin(newSkin);
+        if (localStorage.getItem("skin") !== newSkin){
+            const res = await UserReg.ChangeSkin({skin: newSkin});
             if (!res.result){
                 alert("Error: " + res.result);
             }
             else{
-                localStorage.setItem("skin",newSkin);
+                localStorage.setItem("skin", newSkin);
             }
         } 
     }
