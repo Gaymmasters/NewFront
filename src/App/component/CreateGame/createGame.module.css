@@ -25,6 +25,12 @@
 
     margin-bottom: 20px;
 }
+.cgpMainCheckBox{
+    display: flex;
+    flex-direction: column;
+    grid-gap: 15px;
+    margin-left: 46px;
+}
 .cgpGhost{
     width: 200px;
     margin-left: 50px;
@@ -36,10 +42,9 @@
 .cgpButtons{
     width: 95%;
     text-align: center;
-    margin-top: 30px;
 
-    z-index: 1;
     position: absolute;
+    top: 380px
 }
 .cgpBtn{
     display: inline-block;

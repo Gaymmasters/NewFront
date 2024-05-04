@@ -5,21 +5,34 @@ import UserReg from "../../../API/RegUser";
 import { moveToLocalStore } from "../../../features/store";
 
 const CreateGamePage = () =>{
-    const [data, setData] = useState({});
+    const [data, setData] = useState({password: "", name: localStorage.getItem("login"+"'s game")});
     const navigate = useNavigate();
     const [isPrivate, setIsPrivate] = useState(false)
+    const [isBot, setIsBot] = useState(false)
     async function createGame(){
-        if (isPrivate || (data.gamePassword.length >= 5 && data.gamePassword.length <= 20)){
-            const res = await UserReg.CreateGame({...data, isPrivate: isPrivate, player1Id: localStorage.getItem("id")})
-            if (!res.result){
-                alert("Error:" + res.message);
+        if (isPrivate){
+            if (data.password.length >= 5 && data.password.length <= 20){
+                const res = await UserReg.CreateGame({...data, isPrivate: isPrivate, isBot: isBot, player1Id: localStorage.getItem("id")})
+                if (!res.result){
+                    alert("Error:" + res.message);
+                }
+                else{
+                    moveToLocalStore({gameId: res.id, gameName: res.name, moves: JSON.stringify(res.moves), winFlag: res.winFlag});
+                    navigate('/game/'+res.id, {replace: true})
+                }
             }
-            else{
-                moveToLocalStore({gameId: res.id, gameName: res.name, moves: JSON.stringify(res.moves), winFlag: res.winFlag});
-                navigate('/game/'+res.id, {replace: true})
-            }
+            else alert("Invalid password length")
         }
-        else alert("Invalid password length")
+        else{
+            const res = await UserReg.CreateGame({...data, isPrivate: isPrivate, isBot: isBot, player1Id: localStorage.getItem("id")})
+                if (!res.result){
+                    alert("Error:" + res.message);
+                }
+                else{
+                    moveToLocalStore({gameId: res.id, gameName: res.name, moves: JSON.stringify(res.moves), winFlag: res.winFlag});
+                    navigate('/game/'+res.id, {replace: true})
+                }
+        }
     }
 
     function hide() {
@@ -41,22 +54,29 @@ const CreateGamePage = () =>{
                 <input
                 type="text"
                 className={classes.cgpInp}
+                value={data.name}
                 onChange={e => setData({...data,name: e.target.value})}/>
-                <input 
-                type="checkbox" 
-                className={classes.cgpCheckbox}
-                id = "checkbox"
-                onClick={hide}/>
-                <label to="checkbox">Private</label>
-                <input 
-                type="checkbox" 
-                className={classes.cgpCheckbox}
-                id = "checkbox"
-                onClick={hide}/>
-                <label to="checkbox">Game with bot</label>
             </div>
-
+            <div className={classes.cgpMainCheckBox}>
+                <div className={classes.cgpDivCheckbox}>
+                    <input 
+                    type="checkbox" 
+                    className={classes.cgpCheckbox}
+                    id = "checkbox"
+                    onClick={() => isBot ? setIsBot(false) : setIsBot(true)}/>
+                    <label to="checkbox">Play with bot</label>
+                </div>
+                <div>
+                    <input 
+                    type="checkbox" 
+                    className={classes.cgpCheckbox}
+                    id = "checkbox"
+                    onClick={hide}/>
+                    <label to="checkbox">Private</label>
+                </div>
+            </div>
             <div className={classes.cgpGhost} id="cgp">
+                <label>Password</label>
                 <input
                 type="password"
                 className={classes.cgpInp}

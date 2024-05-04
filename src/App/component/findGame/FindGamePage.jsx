@@ -1,8 +1,9 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import PostGame from "./postGame";
 import { Link } from "react-router-dom";
 import classes from "./findGame.module.css";
 import Loading from "./loading/loading";
+import UserReg from "../../../API/RegUser";
 
 const FindGamePage = () =>{
     useEffect(() => {
@@ -15,24 +16,14 @@ const FindGamePage = () =>{
     async function getList(){
         setIsPostsLoading(true)
         const res = await UserReg.GamesList()
-        if (!res.result){
-            alert("Error: " + res.result);
-        }
-        else{
-            setPosts(res)
-            setIsPostsLoading(false)
-        }
+        setPosts(res)
+        setIsPostsLoading(false)
     }
 
     const [searchPost, setSearchPost] = useState("")
 
-    const sortPosts = useMemo(() => {
-        return [...posts].filter(post => (post.winflag == 0 && post.player2Id == 0))
-    }, [posts])
-
-    const search = useMemo(() =>{
-        return [...sortPosts].filter(post => post.name.toLowerCase().includes(searchPost))
-    }, [searchPost])
+    const sortPosts = [...posts].filter(post => (post.winFlag === 0 && post.player2Id == null));
+    const search = [...sortPosts].filter(post => post.name.includes(searchPost))
 
     return(
         <div className={classes.fgpContainer}>
