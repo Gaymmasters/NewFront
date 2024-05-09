@@ -50,4 +50,11 @@ export default class UserReg{
         }catch(error){ console.log(error) }
         
     }
+    static async JoinToGame() {
+        try{
+            const res = await axios.put("http://localhost:5000/api/join")
+            return res.data
+        }catch(error){ console.log(error) }
+        
+    }
 }
