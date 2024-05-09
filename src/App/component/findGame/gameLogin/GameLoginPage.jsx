@@ -5,7 +5,7 @@ import UserReg from "../../../../API/RegUser";
 import { moveToLocalStore } from "../../../../features/store";
 
 const GameLoginPage = () => {
-    const [password, setPassword] = useState()
+    const [password, setPassword] = useState("")
     const data = useLocation()
     const navigate = useNavigate()
 
@@ -15,22 +15,21 @@ const GameLoginPage = () => {
             alert("Error: " + res.message);
         }
         else{
-            moveToLocalStore({gameId: res.id, gameName: res.name, moves: JSON.stringify(res.moves), winFlag: res.winFlag, player1Id: res.player1Id});
-            navigate("/game/"+data.state.id)
+            moveToLocalStore({gameId: res.id, gameName: res.name, moves: JSON.stringify(res.moves), winFlag: res.winFlag, opponentId: res.player1Id, number: 1});
+            navigate("/game/?id="+data.state.id)
         }
     }
 
     return(
         <div className={classes.main}>
-            <h1>Game log in</h1>
+            <h1>This game is private</h1>
             <div className={classes.inside}>
-                <h3>This game is private</h3>
                 <p>Please enter the password</p>
                 <div>
                     <label>Game's password</label>
                     <input
                     type="password"
-                    onChange={e => setPassword({password:e.target.value})}/>
+                    onChange={e => setPassword(e.target.value)}/>
                 </div>
                 <button onClick={joinToGame}>Confirm</button>
             </div>

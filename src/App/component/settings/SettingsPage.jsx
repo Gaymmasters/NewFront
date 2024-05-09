@@ -61,7 +61,6 @@ const SettingsPage = () => {
             CurrentTile.className = "tile selected";
             PrevTile.className = "tile"
             setNewSkin(id)
-            console.log(newSkin)
         };
     };
 

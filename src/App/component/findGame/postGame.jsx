@@ -16,13 +16,14 @@ const PostGame = (props) =>{
             navigate("/gamelogin",{state:{id: id, gameName: gameName}})
         }
         else{
+            console.log(gameName)
             const res = await UserReg.JoinToGame({player2Id: localStorage.getItem('id'), name: gameName, password: null})
             if (!res.result){
                 alert("Error: " + res.message);
             }
             else{
-                moveToLocalStore({gameId: res.id, gameName: res.name, moves: JSON.stringify(res.moves), winFlag: res.winFlag, player1Id: res.player1Id});
-                navigate("/game/"+id)
+                moveToLocalStore({gameId: res.id, gameName: res.name, moves: JSON.stringify(res.moves), winFlag: res.winFlag, opponentId: res.player1Id, number: 1});
+                navigate("/game/?id="+id)
             }
         }
     }
@@ -38,7 +39,8 @@ const PostGame = (props) =>{
     }
     else{
         return(
-            <div className={classes.post}>
+            <div className={classes.post}
+            onClick={joinToGame}>
                 <p className={classes.postName}>{gameName}</p> 
             </div>
         );

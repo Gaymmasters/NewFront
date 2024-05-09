@@ -5,7 +5,7 @@ import UserReg from "../../../API/RegUser";
 import { moveToLocalStore } from "../../../features/store";
 
 const CreateGamePage = () =>{
-    const [data, setData] = useState({password: "", name: localStorage.getItem(("login")+"'s game")});
+    const [data, setData] = useState({password: "", name: localStorage.getItem("login")+"'s game"});
     const navigate = useNavigate();
     const [isPrivate, setIsPrivate] = useState(false)
     const [isBot, setIsBot] = useState(false)
@@ -17,7 +17,7 @@ const CreateGamePage = () =>{
                     alert("Error:" + res.message);
                 }
                 else{
-                    moveToLocalStore({gameId: res.id, gameName: res.name, moves: JSON.stringify(res.moves), winFlag: res.winFlag});
+                    moveToLocalStore({gameId: res.id, gameName: res.name, moves: JSON.stringify(res.moves), winFlag: res.winFlag, number: 0});
                     navigate('/game/'+res.id, {replace: true})
                 }
             }
@@ -29,7 +29,7 @@ const CreateGamePage = () =>{
                     alert("Error:" + res.message);
                 }
                 else{
-                    moveToLocalStore({gameId: res.id, gameName: res.name, moves: JSON.stringify(res.moves), winFlag: res.winFlag});
+                    moveToLocalStore({gameId: res.id, gameName: res.name, moves: JSON.stringify(res.moves), winFlag: res.winFlag, number: 0});
                     navigate('/game/'+res.id, {replace: true})
                 }
         }

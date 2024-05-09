@@ -1,34 +1,39 @@
 import React from "react";
 import { Navigate, useNavigate } from "react-router";
 import UserReg from "../../API/RegUser";
+import { useSearchParams } from "react-router-dom";
 
 const PrivateRouteToGame = (props) => {
+    const [searchParams, setSearchParams] = useSearchParams()
+    const id = searchParams.get("id")
     const isLogin = localStorage.getItem("isLogin")
-    const navigate = useNavigate()
-    if (isLogin){
-        const res = UserReg.GetInfAboutGame() ///передать id
-        if (!res.result){
-            alert('Error: ' + res.message)
-        }
-        else{
-            if(({...res, player2Id} != null) || ({...res, winFlag} == 1)){
-                navigate('/menu')
-                alert("You can't join to this game")
+    async function navigateToGame(gameId){
+        if (isLogin){
+            const res = await UserReg.GetInfAboutGame(gameId)
+            console.log(res)
+            if (!res.result){
+                alert('Error: ' + res.message)
+                return <Navigate to="/menu"/>
             }
             else{
-                if ({...res, isPrivate} == true){
-                    navigate('/gamelogin', {state:{id: res.id , gameName: res.name}})
-                    alert("This game is private.")
+                if(res.player2Id != null){
+                    return <Navigate to="/menu"/>
                 }
                 else{
-                    navigate('/game/'/*+id игры*/)
+                    if (res.isPrivate == true){
+                        return <Navigate to = '/gamelogin'/>
+                    }
+                    else{
+                        return <Navigate to={"/game/?id="+id}/>
+                    }
                 }
             }
         }
+        else{
+            return <Navigate to={props.way}/>
+        }
     }
-    else{
-        return <Navigate to={props.way}/>
-    }
+    navigateToGame(id)    
 }
 
 export default PrivateRouteToGame;

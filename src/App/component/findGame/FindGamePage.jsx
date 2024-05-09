@@ -12,12 +12,11 @@ const FindGamePage = () =>{
 
     const [isPostsLoading,setIsPostsLoading] = useState(false)
 
-    const [posts, setPosts] = useState()
+    const [posts, setPosts] = useState([])
     async function getList(){
         setIsPostsLoading(true)
         const res = await UserReg.GamesList()
         setPosts(res)
-        setIsPostsLoading(false)
     }
 
     const [searchPost, setSearchPost] = useState("")
