@@ -3,12 +3,14 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import LoginPage from './component/LoginRegPages/LoginPage';
 import RegPage from './component/LoginRegPages/RegPage';
 import MenuPage from './component/menu/MenuPage';
-import PrivateRoute from '../features/privateRoute';
+import PrivateRoute from '../features/privateRouting/privateRoute';
 import RulesPage from './component/rules/RulesPage';
 import SettingsPage from './component/settings/SettingsPage';
 import CreateGamePage from './component/CreateGame/CreateGamePage';
 import FindGamePage from './component/findGame/FindGamePage';
 import GameLoginPage from './component/findGame/gameLogin/GameLoginPage';
+import GamePage from './component/game/GamePage';
+import PrivateRouteToGame from '../features/privateRouting/privateRouteToGame';
 
 
 const App = () => {
@@ -35,6 +37,9 @@ const App = () => {
             </Route>
             <Route path = "/gamelogin" element={<PrivateRoute way={"/login"}/>}>
               <Route path='/gamelogin' element={<GameLoginPage/>} />
+            </Route>
+            <Route path = "/game" element={<PrivateRouteToGame way={"/login"}/>}>
+              <Route path='/game' element={<GamePage/>} />
             </Route>
           </Routes>
         </BrowserRouter>
