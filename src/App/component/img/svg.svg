@@ -14,7 +14,7 @@
                 transform: translate(354.62, 0);
             }
         }
-#s {animation: slidein 2s infinite linear;}
+#s {animation: slidein 10s infinite linear;}
 </style>
 <g id="s" transform="matrix(1 0 0 1 354.62 0)">
 	<path class="st0" d="M214.76,86.25c0,5.52-4.48,10-10,10h-69.4c-5.52,0-10-4.48-10-10V19.21c0-5.52,4.48-10,10-10h69.4
