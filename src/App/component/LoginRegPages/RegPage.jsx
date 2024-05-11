@@ -13,14 +13,17 @@ const RegPage = () => {
     async function reg(){
         if (valid.validate(data.email)){
             if (data.password.length >= 5 && data.password.length <= 20){
-                const res = await UserReg.Reg(data)
-                if (!res.result){
-                    alert("Error:" + res.message);
+                if (data.login.length >= 5 && data.login.length <= 20){
+                    const res = await UserReg.Reg(data)
+                    if (!res.result){
+                        alert("Error:" + res.message);
+                    }
+                    else{
+                        moveToLocalStore({...res, isLogin: true});
+                        navigate('/', {replace: false})
+                    }
                 }
-                else{
-                    moveToLocalStore({...res, isLogin: true});
-                    navigate('/', {replace: false})
-                }
+                else alert("Invalid login length");
             }
             else alert("Invalid password length");
         }

@@ -12,14 +12,17 @@ const CreateGamePage = () =>{
     async function createGame(){
         if (isPrivate){
             if (data.password.length >= 5 && data.password.length <= 20){
-                const res = await UserReg.CreateGame({...data, isPrivate: isPrivate, isBot: isBot, player1Id: localStorage.getItem("id")})
-                if (!res.result){
-                    alert("Error:" + res.message);
+                if (data.login.length >= 5 && data.login.length <= 27){
+                    const res = await UserReg.CreateGame({...data, isPrivate: isPrivate, isBot: isBot, player1Id: localStorage.getItem("id")})
+                    if (!res.result){
+                        alert("Error:" + res.message);
+                    }
+                    else{
+                        moveToLocalStore({gameId: res.id, gameName: res.name, moves: JSON.stringify(res.moves), winFlag: res.winFlag, number: 0});
+                        navigate('/game/?id='+res.id, {replace: true})
+                    }
                 }
-                else{
-                    moveToLocalStore({gameId: res.id, gameName: res.name, moves: JSON.stringify(res.moves), winFlag: res.winFlag, number: 0});
-                    navigate('/game/'+res.id, {replace: true})
-                }
+                else alert('Invalid login length')
             }
             else alert("Invalid password length")
         }
@@ -30,7 +33,7 @@ const CreateGamePage = () =>{
                 }
                 else{
                     moveToLocalStore({gameId: res.id, gameName: res.name, moves: JSON.stringify(res.moves), winFlag: res.winFlag, number: 0});
-                    navigate('/game/'+res.id, {replace: true})
+                    navigate('/game/?id='+res.id, {replace: true})
                 }
         }
     }

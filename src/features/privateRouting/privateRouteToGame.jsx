@@ -3,6 +3,8 @@ import { Navigate, useNavigate } from "react-router";
 import UserReg from "../../API/RegUser";
 import { useSearchParams } from "react-router-dom";
 
+///   1715347899766
+
 const PrivateRouteToGame = (props) => {
     const [searchParams, setSearchParams] = useSearchParams()
     const id = searchParams.get("id")
@@ -13,17 +15,23 @@ const PrivateRouteToGame = (props) => {
             console.log(res)
             if (!res.result){
                 alert('Error: ' + res.message)
-                return <Navigate to="/menu"/>
+                console.log("error res")
+                return <Navigate to="/"/>
             }
             else{
-                if(res.player2Id != null){
-                    return <Navigate to="/menu"/>
+                console.log("success res")
+                if(res.player2Id != null && res.player2Id != localStorage.getItem("id")){
+                    console.log("2id")
+                    alert("You can't join to this game")
+                    return <Navigate to="/"/>
                 }
                 else{
                     if (res.isPrivate == true){
+                        console.log("private")
                         return <Navigate to = '/gamelogin'/>
                     }
                     else{
+                        console.log("success join")
                         return <Navigate to={"/game/?id="+id}/>
                     }
                 }

@@ -22,7 +22,7 @@ const GamePage = () => {
         [0,1,2,3,4,5,6,7,8],[0,1,2,3,4,5,6,7,8],[0,1,2,3,4,5,6,7,8],
         [0,1,2,3,4,5,6,7,8],[0,1,2,3,4,5,6,7,8],[0,1,2,3,4,5,6,7,8]
     ]
-    const moveList = JSON.parse(localStorage.getItem("moves"))
+    let moveList = JSON.parse(localStorage.getItem("moves"))
     const moveList2 = ["b4s3",'b3s1','b1s2']
 
     async function makeMove(blockId, boxId){
@@ -50,6 +50,7 @@ const GamePage = () => {
     async function drawMoves(moves){
         const res = await Game.getGameMoves(localStorage.getItem("gameId"))
         if (!checkMoves(moves, res)){
+            moveList = res
             for (let i = 0; i < res.length; i++){
                 const block = document.getElementById(res[i])
                 if (block !== undefined){
@@ -60,7 +61,6 @@ const GamePage = () => {
                         block.style.backgroundColor = "red" /// отмечаем второго игрока 
                     }
                 }
-                return undefined ///  fix
             }
         }
     }

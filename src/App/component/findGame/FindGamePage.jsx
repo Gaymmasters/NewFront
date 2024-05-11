@@ -21,7 +21,7 @@ const FindGamePage = () =>{
 
     const [searchPost, setSearchPost] = useState("")
 
-    const sortPosts = [...posts].filter(post => (post.winFlag === 0 && post.player2Id == null));
+    const sortPosts = [...posts].filter(post => (post.winFlag === 0 && post.player2Id == null && post.player1Id !== localStorage.getItem("id")));
     const search = [...sortPosts].filter(post => post.name.includes(searchPost))
 
     return(

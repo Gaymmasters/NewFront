@@ -12,7 +12,7 @@
     margin: auto;
 
     border-radius: 30px;
-    padding: 50px;
+    padding: 25px;
 
     display: flex;
     flex-direction: column;
@@ -30,10 +30,10 @@
 p{
     margin: 0;
 }
-input{
+.inp{
     width: 200px;
     height: 25px;
 }
-button{
+.btn{
     margin-top: 25px;
 }

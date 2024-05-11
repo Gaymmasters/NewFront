@@ -29,9 +29,10 @@ const GameLoginPage = () => {
                     <label>Game's password</label>
                     <input
                     type="password"
+                    className={classes.inp}
                     onChange={e => setPassword(e.target.value)}/>
                 </div>
-                <button onClick={joinToGame}>Confirm</button>
+                <button className={classes.btn}onClick={joinToGame}>Confirm</button>
             </div>
         </div>
     )
