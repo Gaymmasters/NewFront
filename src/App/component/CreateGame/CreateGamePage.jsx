@@ -12,7 +12,7 @@ const CreateGamePage = () =>{
     async function createGame(){
         if (isPrivate){
             if (data.password.length >= 5 && data.password.length <= 20){
-                if (data.login.length >= 5 && data.login.length <= 27){
+                if (data.name.length >= 5 && data.name.length <= 27){
                     const res = await UserReg.CreateGame({...data, isPrivate: isPrivate, isBot: isBot, player1Id: localStorage.getItem("id")})
                     if (!res.result){
                         alert("Error:" + res.message);
