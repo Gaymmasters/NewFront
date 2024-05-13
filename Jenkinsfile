@@ -5,14 +5,14 @@ pipeline {
         stage('Build') {
             steps {
                 checkout scm
-                sh "docker build ."
+                sh "docker build -t testfront:test ."
             }
         }
 
         stage('Run') {
             steps {
                 sh """
-                    docker run -d --rm --name testfront
+                    docker run -d --rm --name testfront testfront:test
                     docker stop testfront
                 """
             }
