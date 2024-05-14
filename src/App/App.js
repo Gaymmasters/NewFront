@@ -11,6 +11,7 @@ import FindGamePage from './component/findGame/FindGamePage';
 import GameLoginPage from './component/findGame/gameLogin/GameLoginPage';
 import GamePage from './component/game/GamePage';
 import PrivateRouteToGame from '../features/privateRouting/privateRouteToGame';
+import ErrorPage from './component/errorPage/ErrorPage';
 
 
 const App = () => {
@@ -20,6 +21,7 @@ const App = () => {
           <Routes>
             <Route path="/login" element={ <LoginPage/>} />
             <Route path="/reg" element={ <RegPage/> } /> 
+            <Route path='*' element={<ErrorPage/>} />
             <Route path = "/" element={<PrivateRoute way={"/login"}/>}>
               <Route path='/' element={<MenuPage/>} />
             </Route>
@@ -41,7 +43,9 @@ const App = () => {
             <Route path = "/game/*" element={<PrivateRouteToGame way={"/login"}/>}>
               <Route path='/game/*' element={<GamePage/>} />
             </Route>
-            
+            <Route path = "/g" element={<PrivateRoute way={"/login"}/>}>
+              <Route path='/g' element={<GamePage/>} />
+            </Route>
           </Routes>
         </BrowserRouter>
       </div>

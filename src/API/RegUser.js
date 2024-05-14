@@ -65,4 +65,11 @@ export default class UserReg{
         }catch(error){ console.log(error) }
         
     }
+    static async GetInfAboutUser(id) {
+        try{
+            const res = await axios.get(url+"api/user/"+id)
+            return res.data
+        }catch(error){ console.log(error) }
+        
+    }
 }
