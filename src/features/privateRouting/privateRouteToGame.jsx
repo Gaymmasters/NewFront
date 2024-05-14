@@ -3,7 +3,6 @@ import { Navigate, Outlet } from "react-router";
 import UserReg from "../../API/RegUser";
 import { useSearchParams } from "react-router-dom";
 import { moveToLocalStore } from "../store";
-import ErrorPage from "../../App/component/errorPage/ErrorPage";
 
 const PrivateRouteToGame = (props) => {
     const [searchParams, setSearchParams] = useSearchParams()
@@ -14,8 +13,6 @@ const PrivateRouteToGame = (props) => {
             moveToTheGame().then((value) => {setNumber(value)})
             console.log(number)
             switch (number){
-                case -1:
-                    return <Navigate to="/"/>
                 case 1: 
                     return <Navigate to="/"/>
                 case 2:

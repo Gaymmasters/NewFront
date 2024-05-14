@@ -15,7 +15,7 @@ import { moveToLocalStore } from "../../../features/store";
 const GamePage = () => {
     useEffect(() => {
         drawMoves(localStorage.getItem("moves"))
-        player2()
+        awaitConnection()
     }, []) 
 
     const skin = {0: skin0, 1:skin1, 2:skin2, 3:skin3, 4:skin4, 5:skin5}
@@ -28,9 +28,28 @@ const GamePage = () => {
     let moveList = JSON.parse(localStorage.getItem("moves"))
     const moveList2 = ["b4s3",'b3s1','b1s2']
 
+    let connectionFlag = false
+    //// fix интервал задавался только тогда нет второго пользователя, прерфвался, когда пользователь подключился (при flag = true скрытно работает)
+    async function awaitConnection(){
+            let timerId = setInterval(fetchData, 2000);
+            setTimeout(() => { clearInterval(timerId); player1(localStorage.getItem("opponentId")) }, 30000);
+    }
+
+
+    async function fetchData(){
+        if (!connectionFlag){
+            const res = await UserReg.GetInfAboutGame(localStorage.getItem("gameId"))
+            if (res.player2Id != null && +localStorage.getItem("number") ===  0){
+                const userData = await UserReg.GetInfAboutUser(res.player2Id)
+                moveToLocalStore({opponentId: res.player2Id, opponentSkin: userData.skin, opponentLogin: userData.login})
+                connectionFlag = true
+            }
+        }
+    }
+
     async function makeMove(blockId, boxId){
         if ((localStorage.getItem("opponentId") !== null) && (+localStorage.getItem("winFlag") === 0) 
-        && ((moveList.length % 2) === +localStorage.getItem("number"))) {
+        && ((JSON.parse(localStorage.getItem("moves")).length % 2) === +localStorage.getItem("number"))) {
             const move = boxId + blockId 
             if (moveList.includes(move)){
                 return undefined /// проверка уникальности хода
@@ -40,55 +59,49 @@ const GamePage = () => {
                 alert("Error: " + res.message)
             }
             else{
-                moveList.push(move)
-                localStorage.setItem("moves", JSON.stringify(moveList))
-                console.log(moveList,moveList.length)
-                drawMoves(moveList)
+                moveList = await Game.getGameMoves(localStorage.getItem("gameId"))
+                console.log(moveList, JSON.parse(localStorage.getItem("moves")))
+                await drawMoves()
                 waitMove()
             }
         }
         return undefined /// если нет второго игрока
     }
     //// fix
-    async function drawMoves(moves){
+    async function drawMoves(){
         const res = await Game.getGameMoves(localStorage.getItem("gameId"))
-        if (!checkMoves(moves, res)){
-            moveList = res
-            for (let i = 0; i < res.length; i++){
-                const block = document.getElementById(res[i])
-                if (block !== undefined){
-                    if (i % 2 === 0){
-                        block.style.backgroundColor = "blue" /// отмечаем ход первого игрока
-                    }
-                    else{
-                        block.style.backgroundColor = "red" /// отмечаем второго игрока 
-                    }
+        for (let i = 0; i < res.length; i++){
+            const block = document.getElementById(res[i])
+            if (block != undefined){
+                if (i % 2 === 0){
+                    block.style.backgroundColor = "blue" /// отмечаем ход первого игрока
+                }
+                else{
+                    block.style.backgroundColor = "red" /// отмечаем второго игрока 
                 }
             }
         }
+        localStorage.setItem("moves", JSON.stringify(res))
     }
 
+    ////fix таймер. прерывалась функция, когда сделан ход
     async function waitMove(){ 
-        return undefined /// ожидание хода противника 
+        let timerId = setInterval(drawMoves, 1000);
+            setTimeout(() => { clearInterval(timerId); player1(localStorage.getItem("opponentId")) }, 20000);
     }
 
-    function checkMoves(localMoves, serverMoves){
-        for (let i = 0; i < serverMoves.length; i++){
-            if (serverMoves[i] === localMoves[i]){
-                continue
+    async function player1(id){
+        if (id != undefined){
+                const res = await UserReg.GetInfAboutUser(id)
+            if (res.result){
+                moveToLocalStore({opponentLogin: res.login, opponentSkin: res.skin})
             }
-            return false /// fix
-        }
-        return true
-    }
-
-    async function player2(){
-        const res = await UserReg.GetInfAboutUser(localStorage.getItem("opponentId"))
-        if (!res.result){
-            alert("Error: "+res.message)
+            else{
+                alert("Invalid connection of the second player.")
+            }
         }
         else{
-            moveToLocalStore({opponentLogin: res.login, opponentSkin: res.skin})
+            alert("Connection time out") ///вся логика с удалением игры, если второй игрок не подключился
         }
     }
     return(
