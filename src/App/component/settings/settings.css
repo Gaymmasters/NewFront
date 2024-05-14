@@ -1,0 +1,28 @@
+.tile-grid {
+  width: 400px;
+  margin-left: 100px;
+  margin-right: 100px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  grid-gap: 5px;
+}
+.tile {
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background-color: rgb(225, 225, 225);
+  border: 2px solid black;
+  border-radius: 10px;
+}
+  
+.tile:hover {
+  opacity: 0.7;
+}
+  
+.selected {
+  border: 2px solid rgb(60, 214, 84);
+  background-color: white;
+  border-radius: 10px;
+}
+.image{
+  height: 50px;
+}
