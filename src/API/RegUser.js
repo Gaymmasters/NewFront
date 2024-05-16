@@ -1,6 +1,6 @@
 import axios from "axios"
 
-const url = "http://95.131.149.248:7789/"
+const url = "https://ticpptacptoe.ru/"
 export default class UserReg{
     static async Reg(data) {
         try{
