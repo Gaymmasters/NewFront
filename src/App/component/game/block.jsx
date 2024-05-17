@@ -9,7 +9,9 @@ const Block = (props) => {
             border: "solid 2px black",
             display: "inline-block",
             margin: "2px" ,
-            borderRadius: "5px"
+            borderRadius: "5px",
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "contain" 
         }}>
         </div>
     )
