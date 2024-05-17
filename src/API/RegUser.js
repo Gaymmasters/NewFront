@@ -1,6 +1,6 @@
 import axios from "axios"
+import {url} from "./const.js"
 
-const url = "https://ticpptacptoe.ru/"
 export default class UserReg{
     static async Reg(data) {
         try{

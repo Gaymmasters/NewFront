@@ -1,6 +1,6 @@
 import axios from "axios"
+import {url} from "./const.js"
 
-const url = "http://95.131.149.248:7789/"
 export default class Game{
     static async getGameMoves(id) {
         try{
