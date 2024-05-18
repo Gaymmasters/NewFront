@@ -32,7 +32,8 @@ const CreateGamePage = () =>{
                     alert("Error:" + res.message);
                 }
                 else{
-                    moveToLocalStore({gameId: res.id, gameName: res.name, moves: JSON.stringify(res.moves), winFlag: res.winFlag, number: 0});
+                    moveToLocalStore({gameId: res.id, gameName: res.name, moves: JSON.stringify(res.moves), winFlag: res.winFlag, number: 0,
+                        player1Skin: localStorage.getItem("skin"), player1Login: localStorage.getItem("login")});
                     navigate('/game/?id='+res.id, {replace: true})
                 }
         }

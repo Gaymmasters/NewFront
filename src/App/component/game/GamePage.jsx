@@ -39,23 +39,19 @@ const GamePage = () => {
     }
 
     async function fetchData(){
-        const res = await UserReg.GetInfAboutGame(localStorage.getItem("gameId"))
         if (localStorage.getItem("opponentId") !== null){
             connectionFlag = false;
             return;
         }
+        
+        const res = await UserReg.GetInfAboutGame(localStorage.getItem("gameId"))
+
         if (res.player2Id !== null && +localStorage.getItem("number") === 0){
             const userData = await UserReg.GetInfAboutUser(res.player2Id)
-            moveToLocalStore({opponentId: res.player2Id, opponentSkin: userData.skin, opponentLogin: userData.login})
+            moveToLocalStore({opponentId: res.player2Id, player2Skin: userData.skin, player2Login: userData.login})
             connectionFlag = false;
             return;
         }  
-        if (+localStorage.getItem("number") === 1){
-            const userData = await UserReg.GetInfAboutUser(res.player2Id)
-            moveToLocalStore({opponentId: res.player2Id, opponentSkin: userData.skin, opponentLogin: userData.login})
-            connectionFlag = false;
-            return;
-        }
     }
 
     async function makeMove(blockId, boxId){
@@ -92,20 +88,10 @@ const GamePage = () => {
             const block = document.getElementById(res[i])
             if (block != undefined){
                 if (i % 2 === 0){
-                    if (+localStorage.getItem("number")){
-                        block.style.backgroundImage = "url("+skin[localStorage.getItem("opponentSkin")]+")"
-                    }
-                    else{
-                        block.style.backgroundImage = "url("+skin[localStorage.getItem("skin")]+")"
-                    }
+                    block.style.backgroundImage = "url("+skin[localStorage.getItem("player1Skin")]+")"                    
                 }
                 else{
-                    if (+localStorage.getItem("number")){
-                        block.style.backgroundImage = "url("+skin[localStorage.getItem("skin")]+")"
-                    }
-                    else{
-                        block.style.backgroundImage = "url("+skin[localStorage.getItem("opponentSkin")]+")"
-                    }
+                    block.style.backgroundImage = "url("+skin[localStorage.getItem("player2Skin")]+")"
                 }
                        
             }
@@ -138,36 +124,19 @@ const GamePage = () => {
             </div>
             <div className={classes.container}>
                 <div className={classes.player0} id="player-0" getId={drawMoves}>
-                    {+localStorage.getItem("number")
-                    ?
-                        <div>
-                            <h3>{localStorage.getItem("opponentLogin")}</h3>
-                            <img className={classes.skinI} src={skin[localStorage.getItem('opponentSkin')]} alt = "skin"/>
-                        </div>
-                    :
-                        <div>
-                            <h3>{localStorage.getItem("login")}</h3>
-                            <img className={classes.skin} src={skin[localStorage.getItem('skin')]} alt = "skin"/>
-                        </div>
-                    }
-                    
+                    <div>
+                        <h3>{localStorage.getItem("player1Login")}</h3>
+                        <img className={classes.skin} src={skin[localStorage.getItem('player1Skin')]} alt = "skin"/>
+                    </div>
                 </div>
                 <div className={classes.allField}>
                     <Box9x9 getId={makeMove}/>
                 </div>
                 <div className={classes.player1} id="player-1" getId={drawMoves}>
-                {!(+localStorage.getItem("number"))
-                    ?
-                        <div>
-                            <h3>{localStorage.getItem("opponentLogin")}</h3>
-                            <img className={classes.skinI} src={skin[localStorage.getItem('opponentSkin')]} alt = "skin"/>
-                        </div>
-                    :
-                        <div>
-                            <h3>{localStorage.getItem("login")}</h3>
-                            <img className={classes.skin} src={skin[localStorage.getItem('skin')]} alt = "skin"/>
-                        </div>
-                    }
+                    <div>
+                        <h3>{localStorage.getItem("player2Login")}</h3>
+                        <img className={classes.skinI} src={skin[localStorage.getItem('player2Skin')]} alt = "skin"/>
+                    </div>
                 </div>
                 {/*<button onClick={drawMoves}>vghjkol;</button>*/}
             </div>
