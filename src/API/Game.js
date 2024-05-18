@@ -16,4 +16,11 @@ export default class Game{
         }catch(error){ console.log(error) }
         
     }
+    static async moveBot(data) {
+        try{
+            const res = await axios.post(url+"api/botmove",{...data})
+            return res.data
+        }catch(error){ console.log(error) }
+        
+    }
 }

@@ -35,16 +35,18 @@ const PrivateRouteToGame = (props) => {
                 return 1 ///<Navigate to="/"/>
             }
             else{
-                
-                    if ((res.isPrivate === true) && (res.player2Id !== +localStorage.getItem('id'))){
-                        console.log("private")
-                        moveToLocalStore({gameId: res.id, gameName: res.name})
-                        return 2 ///<Navigate to = "/gamelogin"/>
-                    }
-                    else{
-                        console.log("success join")
-                        return 3 ///<Outlet/>
-                    }
+                if(res.player1Id === localStorage.getItem("id")){
+                    return 3
+                }
+                if ((res.isPrivate === true) && (res.player2Id !== +localStorage.getItem('id'))){
+                    console.log("private")
+                    moveToLocalStore({gameId: res.id, gameName: res.name})
+                    return 2 ///<Navigate to = "/gamelogin"/>
+                }
+                else{
+                    console.log("success join")
+                    return 3 ///<Outlet/>
+                }
             }
         }
     }

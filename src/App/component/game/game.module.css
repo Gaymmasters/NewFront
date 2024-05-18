@@ -18,12 +18,6 @@
 .gameFieldBox3x3{
     display: flex;
 }
-.gameFieldBlocks3x3{
-    margin: 10px;
-    background-color: white;
-    border-radius: 10px;
-    border: 4px solid black;
-}
 .allField{
     width: auto;
     height: auto;

@@ -4,7 +4,11 @@ import classes from "./game.module.css";
 
 const Box3x3 = (props) => {
     return(
-        <div className={classes.gameFieldBlocks3x3} id = {props.boxId}>
+        <div id = {props.boxId} style= {{
+            margin: "10px",
+            backgroundColor: "white",
+            borderRadius: "10px",
+            border: "4px solid black",}}>
             <div className={classes.lineBlocks3x3}>
                 <Block boxId={props.boxId} blockId = "s0" getId={props.getId}/>
                 <Block boxId={props.boxId} blockId = "s1" getId={props.getId}/>
