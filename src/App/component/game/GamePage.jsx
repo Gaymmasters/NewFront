@@ -123,7 +123,7 @@ const GamePage = () => {
                 <h1>{localStorage.getItem("gameName")}</h1>
             </div>
             <div className={classes.container}>
-                <div className={classes.player0} id="player-0" getId={drawMoves}>
+                <div className={classes.player0} id="player-0">
                     <div>
                         <h3>{localStorage.getItem("player1Login")}</h3>
                         <img className={classes.skin} src={skin[localStorage.getItem('player1Skin')]} alt = "skin"/>
@@ -132,7 +132,7 @@ const GamePage = () => {
                 <div className={classes.allField}>
                     <Box9x9 getId={makeMove}/>
                 </div>
-                <div className={classes.player1} id="player-1" getId={drawMoves}>
+                <div className={classes.player1} id="player-1">
                     <div>
                         <h3>{localStorage.getItem("player2Login")}</h3>
                         <img className={classes.skinI} src={skin[localStorage.getItem('player2Skin')]} alt = "skin"/>
