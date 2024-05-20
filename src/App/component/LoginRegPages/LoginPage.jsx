@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import './loginReg.css'
 import logo from "../img/logo.png";
 import UserReg from '../../../API/RegUser';
@@ -47,9 +47,7 @@ const LoginPage = () => {
                     <button  className='confirm' style={{marginTop: 69}} onClick={logIn}> Confirm </button>
                 </div>
                 <div className='bloсk-btn'>
-                    <Link to="/reg">
-                        <button>Sing up</button>
-                    </Link>
+                    <button onClick={()=>{navigate('/reg')}}>Sing up</button>
                 </div>
             </div>
         </div>

@@ -30,6 +30,16 @@ h1{
     margin: auto;
     margin-bottom: 10px;
 }
+
+input{
+    font-family: "Luckiest Guy", cursive;
+    font-size: medium;
+    border: 0;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+    padding: 5px;
+}
+
 img{
     height: 70px;
 
@@ -45,10 +55,12 @@ button{
     margin: auto;
 
     border-radius: 10px;
-
+    border: 0;
     margin-top: 10px;
     width: 75px;
     height: 25px;
+    font-family: "Luckiest Guy", cursive;
+    font-size: medium;
 }
 .confirm{
     width: 100px;

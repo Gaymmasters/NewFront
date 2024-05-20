@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import classes from "./settings.module.css";
 import "./settings.css";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import UserReg from "../../../API/RegUser";
 import skin0  from "./../img/skin0.png";
 import skin1  from "./../img/skin1.png";
@@ -16,6 +16,7 @@ const SettingsPage = () => {
         CurrentTile.className = "selected";
     }, [])
     const [newLogin, setNewLogin] = useState('');
+    const navigate = useNavigate()
     async function changeName(){
         if (!(newLogin.trim() === '')){
             const res = await UserReg.ChangeLogin({login: newLogin});
@@ -91,9 +92,7 @@ const SettingsPage = () => {
                 </div>
                 <button className={classes.btnChange} onClick={changeSkin}>Change</button>
             </div>
-            <Link to="/">
-                <button className={classes.btnBack}>Back</button>
-            </Link>
+            <button className={classes.btnBack} onClick={()=>{navigate('/')}}>Back</button>
         </div>
     )
 }

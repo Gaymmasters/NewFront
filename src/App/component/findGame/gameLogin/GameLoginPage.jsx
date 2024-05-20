@@ -38,7 +38,8 @@ const GameLoginPage = () => {
                     className={classes.inp}
                     onChange={e => setPassword(e.target.value)}/>
                 </div>
-                <button className={classes.btn}onClick={joinToGame}>Confirm</button>
+                <button className={classes.btn} onClick={joinToGame}>Confirm</button>
+                <button className={classes.backbtn} onClick={()=>{navigate('/findgame')}}>Back</button>
             </div>
         </div>
     )

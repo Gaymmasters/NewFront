@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import PostGame from "./postGame";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import classes from "./findGame.module.css";
 import Loading from "./loading/loading";
 import UserReg from "../../../API/RegUser";
@@ -11,7 +11,7 @@ const FindGamePage = () =>{
     }, [])
 
     const [isPostsLoading,setIsPostsLoading] = useState(false)
-
+    const navigate = useNavigate()
     const [posts, setPosts] = useState([])
     async function getList(){
         setIsPostsLoading(true)
@@ -56,9 +56,7 @@ const FindGamePage = () =>{
                     </div>
                 }
             </div>
-            <Link to="/">
-                <button className={classes.fgpBtn}>Back</button>
-            </Link>
+            <button className={classes.fgpBtn} onClick={()=>{navigate('/')}}>Back</button>
         </div>
     );
 }

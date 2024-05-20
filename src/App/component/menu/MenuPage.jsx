@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import UserReg from '../../../API/RegUser';
 import './menuPage.css';
 import logo from "../img/logo.png"
@@ -31,19 +31,11 @@ function hide() {
         <div>
             <div className='main'>
                 <div className='block-menu'>
-                    <img src= {logo} alt = "logo"></img>
-                    <Link to='/findgame'>
-                        <button className='menu'>Find game</button>
-                    </Link>
-                    <Link to='/creategame'>
-                        <button className='menu'>Create game</button>
-                    </Link>
-                    <Link to='/rules'>
-                        <button className='menu'>Rules</button>
-                    </Link>
-                    <Link to='/settings'>
-                        <button className='menu'>Settings</button>
-                    </Link>
+                    <img src= {logo} alt = "logo"></img>                
+                    <button className='menu' onClick={()=>{navigate('/findgame')}}>Find game</button>
+                    <button className='menu' onClick={()=>{navigate('/creategame')}}>Create game</button>
+                    <button className='menu' onClick={()=>{navigate('/rules')}}>Rules</button>                
+                    <button className='menu' onClick={()=>{navigate('/settings')}}>Settings</button>                
                     <button className='menu' onClick={logOut}>Log out</button>
                 </div>
                 <div className='block-authors'>
@@ -57,13 +49,13 @@ function hide() {
                 <div className='allAuthors'>
                     <div className='authors'>
                         <h3>Гришко Дмитрий Михайлович</h3>
-                        <p>Самый скромный backender галактики</p> 
+                        <p><b>Самый скромный</b> backender <b>галактики</b></p> 
                         <a  href ='https://github.com/TAskMAster339'>GitHub</a> 
                         <p className='MainActors'>Так себе шутник</p>
                     </div>
                     <div className='authors'>
                         <h3>Брезгунова Анжелика Руслановна</h3>
-                        <p>Создатель Skynet</p> 
+                        <p><b>Создатель</b> Skynet</p> 
                         <a  href ='https://github.com/angelika005'>GitHub</a> 
                         <p className='MainActors'>Горячая чикса</p>
                     </div>

@@ -3,9 +3,9 @@ import classes from "./rulesPage.module.css";
 import rule1 from "../img/rule1.png";
 import rule2 from "../img/rule2.png";
 import rule3 from "../img/rule3.png";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 const RulesPage = () => {
-
+    const navigate = useNavigate()
     return(
         <div className={classes.container}>
             <h1>Rules</h1>
@@ -34,9 +34,7 @@ const RulesPage = () => {
                     
                 </div>
             </div>
-            <Link to="/">
-                <button className={classes.btn}>Back</button>
-            </Link>
+            <button className={classes.btn} onClick={()=>{navigate('/')}}>Back</button>
         </div>
     )
 }

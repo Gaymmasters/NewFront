@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import classes from "./createGame.module.css";
-import { Link, useNavigate } from "react-router-dom/dist";
+import { useNavigate } from "react-router-dom/dist";
 import UserReg from "../../../API/RegUser";
 import { moveToLocalStore } from "../../../features/store";
 
@@ -66,17 +66,17 @@ const CreateGamePage = () =>{
                     <input 
                     type="checkbox" 
                     className={classes.cgpCheckbox}
-                    id = "checkbox"
-                    onClick={() => isBot ? setIsBot(false) : setIsBot(true)}/>
-                    <label to="checkbox">Play with bot</label>
+                    id = "checkboxB"
+                    checked={isBot}/>
+                    <label to="checkboxB" onClick={() => isBot ? setIsBot(false) : setIsBot(true)}>Play with bot</label>
                 </div>
                 <div>
                     <input 
                     type="checkbox" 
                     className={classes.cgpCheckbox}
-                    id = "checkbox"
-                    onClick={hide}/>
-                    <label to="checkbox">Private</label>
+                    id = "checkboxP"
+                    checked={isPrivate}/>
+                    <label to="checkboxP" onClick={hide}>Private</label>
                 </div>
             </div>
             <div className={classes.cgpGhost} id="cgp">
@@ -88,9 +88,7 @@ const CreateGamePage = () =>{
             </div>
 
             <div className={classes.cgpButtons}>
-                <Link to="/">
-                    <button className={classes.cgpBtn}>Back</button>
-                </Link>
+                <button className={classes.cgpBtn} onClick={()=>{navigate('/')}}>Back</button>
                 <button className={classes.cgpBtn} onClick={createGame}>Start</button>
             </div>
         </div>
