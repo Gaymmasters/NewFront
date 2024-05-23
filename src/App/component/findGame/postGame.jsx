@@ -14,7 +14,7 @@ const PostGame = (props) =>{
     async function joinToGame(){
         if (isPrivate){
             moveToLocalStore({gameId: id, gameName: gameName})
-            navigate("/gamelogin")
+            navigate("/game/?id="+id)
         }
         else{
             console.log(gameName)

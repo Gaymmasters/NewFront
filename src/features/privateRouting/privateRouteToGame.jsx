@@ -27,6 +27,7 @@ const PrivateRouteToGame = (props) => {
         }
 
         async function moveToTheGame(){
+
             const res = await UserReg.GetInfAboutGame(gameId)
             console.log("result",res)
             if (!res.result){
@@ -35,10 +36,10 @@ const PrivateRouteToGame = (props) => {
                 return 1 ///<Navigate to="/"/>
             }
             else{
-                if(res.player1Id === localStorage.getItem("id")){
+                if((res.player1Id === localStorage.getItem("id")) || (res.player2Id === localStorage.getItem("id"))){
                     return 3
                 }
-                if ((res.isPrivate === true) && (res.player2Id !== +localStorage.getItem('id'))){
+                if ((res.isPrivate === true) && (res.player2Id !== localStorage.getItem('id'))){
                     console.log("private")
                     moveToLocalStore({gameId: res.id, gameName: res.name})
                     return 2 ///<Navigate to = "/gamelogin"/>

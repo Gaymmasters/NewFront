@@ -1,8 +1,8 @@
 import React from "react";
 import classes from "./rulesPage.module.css";
-import rule1 from "../img/rule1.png";
-import rule2 from "../img/rule2.png";
-import rule3 from "../img/rule3.png";
+import rule1 from "../img/rules/rule1.png";
+import rule2 from "../img/rules/rule2.png";
+import rule3 from "../img/rules/rule3.png";
 import { useNavigate } from "react-router-dom";
 const RulesPage = () => {
     const navigate = useNavigate()

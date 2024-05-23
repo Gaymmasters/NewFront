@@ -3,12 +3,12 @@ import classes from "./settings.module.css";
 import "./settings.css";
 import { useNavigate } from "react-router-dom";
 import UserReg from "../../../API/RegUser";
-import skin0  from "./../img/skin0.png";
-import skin1  from "./../img/skin1.png";
-import skin2  from "./../img/skin2.png";
-import skin3  from "./../img/skin3.png";
-import skin4  from "./../img/skin4.png";
-import skin5  from "./../img/skin5.png";
+import skin0  from "./../img/settingsSkin/skin0.png";
+import skin1  from "./../img/settingsSkin/skin1.png";
+import skin2  from "./../img/settingsSkin/skin2.png";
+import skin3  from "./../img/settingsSkin/skin3.png";
+import skin4  from "./../img/settingsSkin/skin4.png";
+import skin5  from "./../img/settingsSkin/skin5.png";
 
 const SettingsPage = () => {
     useEffect(() => {

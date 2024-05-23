@@ -15,14 +15,13 @@ const FindGamePage = () =>{
     const [posts, setPosts] = useState([])
     async function getList(){
         setIsPostsLoading(true)
-        const res = await UserReg.GamesList()
+        const res = await UserReg.GamesFilterList()
         setPosts(res)
     }
 
     const [searchPost, setSearchPost] = useState("")
 
-    const sortPosts = [...posts].filter(post => (post.winFlag === 0 && post.player2Id == null && post.player1Id !== localStorage.getItem("id")));
-    const search = [...sortPosts].filter(post => post.name.includes(searchPost))
+    const search = [...posts].filter(post => post.name.includes(searchPost))
 
     return(
         <div className={classes.fgpContainer}>

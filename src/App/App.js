@@ -12,6 +12,7 @@ import GameLoginPage from './component/findGame/gameLogin/GameLoginPage';
 import GamePage from './component/game/GamePage';
 import PrivateRouteToGame from '../features/privateRouting/privateRouteToGame';
 import ErrorPage from './component/errorPage/ErrorPage';
+import WithBotGamePage from './component/game/withBotGamePage';
 
 
 const App = () => {
@@ -43,8 +44,8 @@ const App = () => {
             <Route path = "/game/*" element={<PrivateRouteToGame way={"/login"}/>}>
               <Route path='/game/*' element={<GamePage/>} />
             </Route>
-            <Route path = "/g" element={<PrivateRoute way={"/login"}/>}>
-              <Route path='/g' element={<GamePage/>} />
+            <Route path = "/game/withbot/*" element={<PrivateRoute way={"/login"}/>}>
+              <Route path='/game/withbot/*' element={<WithBotGamePage/>} />
             </Route>
           </Routes>
         </BrowserRouter>

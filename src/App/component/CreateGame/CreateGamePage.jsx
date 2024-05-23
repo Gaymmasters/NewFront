@@ -10,15 +10,26 @@ const CreateGamePage = () =>{
     const [isPrivate, setIsPrivate] = useState(false)
     const [isBot, setIsBot] = useState(false)
     async function createGame(){
-        if (isPrivate){
+
+        // can't chose two option at the same time
+        if(isPrivate && isBot){
+            alert("You can only chose one option.")
+            return
+        }
+
+        // private game
+        if (isPrivate && !isBot){
             if (data.password.length >= 5 && data.password.length <= 20){
                 if (data.name.length >= 5 && data.name.length <= 27){
                     const res = await UserReg.CreateGame({...data, isPrivate: isPrivate, isBot: isBot, player1Id: localStorage.getItem("id")})
                     if (!res.result){
                         alert("Error:" + res.message);
+
                     }
                     else{
-                        moveToLocalStore({gameId: res.id, gameName: res.name, moves: JSON.stringify(res.moves), winFlag: res.winFlag, number: 0});
+                        moveToLocalStore({gameId: res.id, gameName: res.name, moves: JSON.stringify(res.moves), winFlag: res.winFlag, number: 0,
+                            player1Skin: localStorage.getItem("skin"), player1Login: localStorage.getItem("login")
+                        });
                         navigate('/game/?id='+res.id, {replace: true})
                     }
                 }
@@ -26,16 +37,33 @@ const CreateGamePage = () =>{
             }
             else alert("Invalid password length")
         }
-        else{
+
+        // free game
+        if (!isPrivate && !isBot){
             const res = await UserReg.CreateGame({...data, isPrivate: isPrivate, isBot: isBot, player1Id: localStorage.getItem("id")})
                 if (!res.result){
-                    alert("Error:" + res.message);
+                    alert("Error: " + res.message);
                 }
                 else{
                     moveToLocalStore({gameId: res.id, gameName: res.name, moves: JSON.stringify(res.moves), winFlag: res.winFlag, number: 0,
                         player1Skin: localStorage.getItem("skin"), player1Login: localStorage.getItem("login")});
                     navigate('/game/?id='+res.id, {replace: true})
                 }
+        }
+
+        // game with bot
+        if (!isPrivate && isBot){
+            const res = await UserReg.CreateGame({...data, isPrivate: isPrivate, isBot: isBot, player1Id: localStorage.getItem("id")})
+            if (!res.result){
+                alert("bot Error: " + res.message);
+                console.log("bot")
+            }
+            else{
+                moveToLocalStore({gameId: res.id, gameName: res.name, moves: JSON.stringify(res.moves), winFlag: res.winFlag, number: 0,
+                    player1Skin: localStorage.getItem("skin"), player1Login: localStorage.getItem("login")
+                });
+                navigate('/game/withbot/?id='+res.id, {replace: true})
+            }
         }
     }
 

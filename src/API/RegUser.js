@@ -44,9 +44,9 @@ export default class UserReg{
         }catch(error){ console.log(error) }
         
     }
-    static async GamesList() {
+    static async GamesFilterList() {
         try{
-            const res = await axios.get(url+"api/game")
+            const res = await axios.get(url+"api/game/active")
             return res.data
         }catch(error){ console.log(error) }
         

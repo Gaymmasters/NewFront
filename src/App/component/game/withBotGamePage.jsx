@@ -1,19 +1,28 @@
-import React from "react";
+import React, { useEffect } from "react";
 import classes from "./game.module.css";
 import Box9x9 from "./box9x9";
 import Game from "../../../API/Game";
-import skin0  from "./../img/skin0.png";
-import skin1  from "./../img/skin1.png";
-import skin2  from "./../img/skin2.png";
-import skin3  from "./../img/skin3.png";
-import skin4  from "./../img/skin4.png";
-import skin5  from "./../img/skin5.png";
+import plr0skin0 from "./../img/plr1skins/plr1skin0.png";
+import plr0skin1 from "./../img/plr1skins/plr1skin1.png";
+import plr0skin2 from "./../img/plr1skins/plr1skin2.png";
+import plr0skin3 from "./../img/plr1skins/plr1skin3.png";
+import plr0skin4 from "./../img/plr1skins/plr1skin4.png";
+import plr0skin5 from "./../img/plr1skins/plr1skin5.png";
+import plr1skin0 from "./../img/plr2skins/plr2skin0.png";
+import plr1skin1 from "./../img/plr2skins/plr2skin1.png";
+import plr1skin2 from "./../img/plr2skins/plr2skin2.png";
+import plr1skin3 from "./../img/plr2skins/plr2skin3.png";
+import plr1skin4 from "./../img/plr2skins/plr2skin4.png";
+import plr1skin5 from "./../img/plr2skins/plr2skin5.png";
 
 
-const withBotGamePage = () => {
+const WithBotGamePage = () => {
+    useEffect(() => {
+        drawMoves()
+    }, [])
 
-
-    const skin = {0: skin0, 1: skin1, 2: skin2, 3: skin3, 4: skin4, 5:skin5}
+    const plr0skins = {0: plr0skin0, 1: plr0skin1, 2: plr0skin2, 3: plr0skin3, 4: plr0skin4, 5: plr0skin5}
+    const plr1skins = {0: plr1skin0, 1: plr1skin1, 2: plr1skin2, 3: plr1skin3, 4: plr1skin4, 5: plr1skin5}
 
     const matrix = [
         [0,1,2,3,4,5,6,7,8],[0,1,2,3,4,5,6,7,8],[0,1,2,3,4,5,6,7,8],
@@ -30,7 +39,7 @@ const withBotGamePage = () => {
             const move = boxId + blockId 
             moveList = await Game.getGameMoves(localStorage.getItem("gameId"))
             if (moveList.includes(move)){
-                return undefined /// проверка уникальности хода
+                return undefined
             }
             const res = await Game.moveBot({move: move, id: localStorage.getItem('gameId')})
             if (!res.result){
@@ -41,42 +50,38 @@ const withBotGamePage = () => {
                 await drawMoves()
             }
         }
-        return undefined /// если нет второго игрока
+        return undefined
     }
-    //// fix
+
     async function drawMoves(){
         const res = await Game.getGameMoves(localStorage.getItem("gameId"))
+        console.log(res)
         if (res.length === 0){
             document.getElementById('b4').style.border = '4px solid blue'
         }
         for (let i = 0; i < res.length; i++){
-            const box = document.getElementById('b'+res[i][3]);
+            const PrevBox = document.getElementById('b'+res[i][1]);
+            const NextBox = document.getElementById('b'+res[i][3]);
             const block = document.getElementById(res[i])
             if (block != undefined){
                 if (i % 2 === 0){
-                    block.style.backgroundImage = "url("+skin[localStorage.getItem("player1Skin")]+")"                    
+                    block.style.backgroundImage = "url("+plr0skins[localStorage.getItem("player1Skin")]+")"                    
                 }
                 else{
-                    block.style.backgroundImage = "url("+skin[(+localStorage.getItem("player1Skin") + 3) % 6]+")"
+                    block.style.backgroundImage = "url("+plr1skins[(+localStorage.getItem("player1Skin") + 3) % 6]+")"
+                    block.style.border = '2px solid black'
                 }
-                if (res.length >= 2){
-                    if (i === res.length-2){ //возвращаем ранее отмечанный предпоследний ход
-                        block.style.border = '2px solid black';
-                        box.style.border = '4px solid black';
-                    }
-                    if (i === res.length-1){ //отмечаем последний ход
-                        block.style.border = '2px solid blue';
-                        box.style.border = '4px solid blue';
-                    } 
+                if (i === res.length - 1){
+                    NextBox.style.border = '4px solid blue'
+                    block.style.border = '2px solid blue'
+                    console.log('i === res.length-1', res[i], block)
                 }
-                else{ //первый ход отличается от остальных
-                    block.style.border = '2px solid blue';
-                    box.style.border = '4px solid blue';
-                    document.getElementById('b4').style.border = '4px solid black';
+                if (i === res.length - 2){
+                    PrevBox.style.border = '4px solid black'
+                    console.log('i === res.length-2', res[i], block)
                 }
-                       
+                }
             }
-        }
         localStorage.setItem("moves", JSON.stringify(res))
     }
 
@@ -89,7 +94,7 @@ const withBotGamePage = () => {
                 <div className={classes.player0} id="player-0">
                     <div>
                         <h3>{localStorage.getItem("player1Login")}</h3>
-                        <img className={classes.skin} src={skin[localStorage.getItem('player1Skin')]} alt = "skin"/>
+                        <img className={classes.skin} src={plr0skins[localStorage.getItem('player1Skin')]} alt = "skin"/>
                     </div>
                 </div>
                 <div className={classes.allField}>
@@ -98,7 +103,7 @@ const withBotGamePage = () => {
                 <div className={classes.player1} id="player-1">
                     <div>
                         <h3>Skynet</h3>
-                        <img className={classes.skin} src={skin[(+localStorage.getItem("player1Skin") + 3) % 6]} alt = "skin"/>
+                        <img className={classes.skin} src={plr1skins[(+localStorage.getItem("player1Skin") + 3) % 6]} alt = "skin"/>
                     </div>
                 </div>
             </div>
@@ -106,4 +111,4 @@ const withBotGamePage = () => {
     )
 }
 
-export default withBotGamePage;
+export default WithBotGamePage;
