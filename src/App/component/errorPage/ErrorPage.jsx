@@ -1,6 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 const ErrorPage = () =>{
+    useEffect(() => {
+        ClearingLocalHost()
+    }, [])
+
+    async function ClearingLocalHost(){
+        const keys = ["gameName","opponentId", "player1Skin", "player2Skin",
+        "winFlag", "moves", "player1Login","player2Login","isPrivate", "isBot"]
+        for (var k = 0; k < keys.length; k += 1){
+            localStorage.removeItem(keys[k])
+        }
+    } 
+
     return(
         <div style={{
             position: "absolute",

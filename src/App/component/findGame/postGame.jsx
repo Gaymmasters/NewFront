@@ -25,7 +25,7 @@ const PostGame = (props) =>{
             else{
                 const userData = await UserReg.GetInfAboutUser(res.player1Id)
                 moveToLocalStore({gameId: res.id, gameName: res.name, moves: JSON.stringify(res.moves), winFlag: res.winFlag,
-                    opponentId: res.player1Id, number: 1, 
+                    number: 1, 
                     player2Skin: localStorage.getItem("skin"), player2Login: localStorage.getItem("login"),
                     player1Skin: userData.skin,                player1Login: userData.login});
                 navigate("/game/?id="+id)

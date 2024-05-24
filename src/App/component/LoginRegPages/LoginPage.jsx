@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './loginReg.css'
 import logo from "../img/logo.png";
@@ -7,6 +7,18 @@ import * as valid from "email-validator";
 import { moveToLocalStore } from '../../../features/store';
 
 const LoginPage = () => {
+    useEffect(() => {
+        ClearingLocalHost()
+    }, [])
+
+    async function ClearingLocalHost(){
+        const keys = ["gameName","opponentId", "player1Skin", "player2Skin",
+        "winFlag", "moves", "player1Login","player2Login","isPrivate", "isBot"]
+        for (var k = 0; k < keys.length; k += 1){
+            localStorage.removeItem(keys[k])
+        }
+    } 
+
     const [data, setData] = useState({});
     const navigate = useNavigate();
         async function logIn(){

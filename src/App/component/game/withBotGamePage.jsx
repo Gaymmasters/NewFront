@@ -32,6 +32,7 @@ const WithBotGamePage = () => {
     let moveList = JSON.parse(localStorage.getItem("moves"))
 
 
+
     async function makeMove(blockId, boxId){
         if ((+localStorage.getItem("winFlag") === 0) 
         && ((JSON.parse(localStorage.getItem("moves")).length % 2) === +localStorage.getItem("number")) 
@@ -65,10 +66,10 @@ const WithBotGamePage = () => {
             const block = document.getElementById(res[i])
             if (block != undefined){
                 if (i % 2 === 0){
-                    block.style.backgroundImage = "url("+plr0skins[localStorage.getItem("player1Skin")]+")"                    
+                    block.style.backgroundImage = "url("+plr0skins[localStorage.getItem("skin")]+")"                    
                 }
                 else{
-                    block.style.backgroundImage = "url("+plr1skins[(+localStorage.getItem("player1Skin") + 3) % 6]+")"
+                    block.style.backgroundImage = "url("+plr1skins[(+localStorage.getItem("skin") + 3) % 6]+")"
                     block.style.border = '2px solid black'
                 }
                 if (i === res.length - 1){
@@ -93,8 +94,8 @@ const WithBotGamePage = () => {
             <div className={classes.container}>
                 <div className={classes.player0} id="player-0">
                     <div>
-                        <h3>{localStorage.getItem("player1Login")}</h3>
-                        <img className={classes.skin} src={plr0skins[localStorage.getItem('player1Skin')]} alt = "skin"/>
+                        <h3>{localStorage.getItem("login")}</h3>
+                        <img className={classes.skin} src={plr0skins[localStorage.getItem('skin')]} alt = "skin"/>
                     </div>
                 </div>
                 <div className={classes.allField}>
@@ -103,7 +104,7 @@ const WithBotGamePage = () => {
                 <div className={classes.player1} id="player-1">
                     <div>
                         <h3>Skynet</h3>
-                        <img className={classes.skin} src={plr1skins[(+localStorage.getItem("player1Skin") + 3) % 6]} alt = "skin"/>
+                        <img className={classes.skin} src={plr1skins[(+localStorage.getItem("skin") + 3) % 6]} alt = "skin"/>
                     </div>
                 </div>
             </div>

@@ -19,8 +19,8 @@ import plr1skin5 from "./../img/plr2skins/plr2skin5.png";
 
 const GamePage = () => {
     useEffect(() => {
-        drawMoves()
         awaitConnection()
+        drawMoves()
         waitMove()
     }, []) 
 
@@ -55,15 +55,18 @@ const GamePage = () => {
         let res;
         if (localStorage.getItem("gameId")){
             res = await UserReg.GetInfAboutGame(localStorage.getItem("gameId"))
+            moveToLocalStore({winFlag: res.winFlag, gameName: res.name, isPrivate: res.isPrivate})
         }
         else{
             return;
         }
 
-        if (res.player2Id !== null && +localStorage.getItem("number") === 0){
-            const userData = await UserReg.GetInfAboutUser(res.player2Id)
-            moveToLocalStore({opponentId: res.player2Id, player2Skin: userData.skin, player2Login: userData.login})
-            setPlayer2Data({skin: userData.skin, login: userData.login})
+        if (res.player2Id !== null){
+            const userData1 = await UserReg.GetInfAboutUser(res.player1Id)
+            const userData2 = await UserReg.GetInfAboutUser(res.player2Id) 
+            moveToLocalStore({player1Skin: userData1.skin, player1Login: userData1.login})
+            moveToLocalStore({player2Skin: userData2.skin, player2Login: userData2.login})
+            setPlayer2Data({skin: userData2.skin, login: userData2.login})
             connectionFlag = false;
             return;
         }  
