@@ -16,28 +16,36 @@ import plr1skin2 from "./../img/plr2skins/plr2skin2.png";
 import plr1skin3 from "./../img/plr2skins/plr2skin3.png";
 import plr1skin4 from "./../img/plr2skins/plr2skin4.png";
 import plr1skin5 from "./../img/plr2skins/plr2skin5.png";
+import { useNavigate } from "react-router";
 
 const GamePage = () => {
     useEffect(() => {
         awaitConnection()
         drawMoves()
+        fillMatrix()
+        checkWin()
         waitMove()
     }, []) 
+
+    const navigate = useNavigate()
 
     const [player2data, setPlayer2Data] = useState({skin: localStorage.getItem('player2Skin'), login: localStorage.getItem('player2Login')});
 
     let secondPlayerWaitFlag = true ///ожидание хода
     let connectionFlag = true ///подключение игрока
+    let deleteGameFlag = true ///удаление игры
 
     const plr0skins = {0: plr0skin0, 1: plr0skin1, 2: plr0skin2, 3: plr0skin3, 4: plr0skin4, 5: plr0skin5}
     const plr1skins = {0: plr1skin0, 1: plr1skin1, 2: plr1skin2, 3: plr1skin3, 4: plr1skin4, 5: plr1skin5}
 
-    const matrix = [
+    const [matrix, setMatrix] = useState([
         [0,1,2,3,4,5,6,7,8],[0,1,2,3,4,5,6,7,8],[0,1,2,3,4,5,6,7,8],
         [0,1,2,3,4,5,6,7,8],[0,1,2,3,4,5,6,7,8],[0,1,2,3,4,5,6,7,8],
         [0,1,2,3,4,5,6,7,8],[0,1,2,3,4,5,6,7,8],[0,1,2,3,4,5,6,7,8]
-    ]
+    ])
     let moveList = JSON.parse(localStorage.getItem("moves"))
+
+    let winFlag = 0
 
     async function awaitConnection(){
         while (connectionFlag) {
@@ -73,7 +81,7 @@ const GamePage = () => {
     }
 
     async function makeMove(blockId, boxId){
-        if ((localStorage.getItem("opponentId") !== null) && (+localStorage.getItem("winFlag") === 0) 
+        if ((localStorage.getItem("player1Login") !== null) && (localStorage.getItem("player2Login") !== null) && (+localStorage.getItem("winFlag") === 0) 
         && ((JSON.parse(localStorage.getItem("moves")).length % 2) === +localStorage.getItem("number")) 
         && (document.getElementById(boxId).style.border === '4px solid blue')) {
             const move = boxId + blockId 
@@ -95,6 +103,7 @@ const GamePage = () => {
                 passivePlayer.style.borderColor = "green"
 
                 secondPlayerWaitFlag = true
+                checkWin()
                 waitMove()
             }
         }
@@ -109,12 +118,18 @@ const GamePage = () => {
         for (let i = 0; i < res.length; i++){
             const box = document.getElementById('b'+res[i][3]);
             const block = document.getElementById(res[i])
+            let newMatrix =  Object.assign([], matrix)
             if (block != undefined){
                 if (i % 2 === 0){
-                    block.style.backgroundImage = "url("+plr0skins[localStorage.getItem("player1Skin")]+")"                    
+                    block.style.backgroundImage = "url("+plr0skins[localStorage.getItem("player1Skin")]+")"
+                    newMatrix[res.at(-1)[1]].splice(res.at(-1)[3], 1, "X") //запись хода первого игрока в матрицу
+                    setMatrix(newMatrix)
+                                      
                 }
                 else{
                     block.style.backgroundImage = "url("+plr1skins[localStorage.getItem("player2Skin")]+")"
+                    newMatrix[res.at(-1)[1]].splice(res.at(-1)[3], 1, "O") // запись хода второго игрока в матрицу
+                    setMatrix(newMatrix)
                 }
                 if (res.length >= 2){
                     if (i === res.length-2){ //возвращаем ранее отмечанный предпоследний ход
@@ -134,6 +149,7 @@ const GamePage = () => {
                        
             }
         }
+        console.log("matrix", matrix)
         localStorage.setItem("moves", JSON.stringify(res))
     }
 
@@ -156,15 +172,119 @@ const GamePage = () => {
                 passivePlayer.style.borderColor = "black"
 
                 secondPlayerWaitFlag = false;
+                checkWin()
                 return;
             }
         }
+    }
+
+    
+    async function checkWin(){
+        let player = ''
+        let box = null 
+        const res = await UserReg.GetInfAboutGame(localStorage.getItem("gameId"))
+        const moves = res.moves
+        winFlag = res.winFlag
+        if (moves.length !== 0){ // для начала игры(ходов нет)
+            if (moves.length % 2 === 0){
+                player = "O"
+            }
+            else{
+                player = "X"
+            }
+        }
+        else{
+            return 
+        }
+        box = moves.at(-1)[1]
+        if (winFlag === 0){
+            if ((matrix[box][0] == player && matrix[box][1] == player && matrix[box][2] == player) ||
+            (matrix[box][3] == player && matrix[box][4] == player && matrix[box][5] == player )||
+            (matrix[box][6] == player && matrix[box][7] == player && matrix[box][8] == player )||
+            (matrix[box][0] == player && matrix[box][3] == player && matrix[box][6] == player )||
+            (matrix[box][1] == player && matrix[box][4] == player && matrix[box][7] == player )||
+            (matrix[box][2] == player && matrix[box][5] == player && matrix[box][8] == player )||
+            (matrix[box][0] == player && matrix[box][4] == player && matrix[box][8] == player )||
+            (matrix[box][2] == player && matrix[box][4] == player && matrix[box][6] == player )){
+                console.log("win player", player)
+                if (player === "X"){
+                    winFlag = 1
+                }
+                else{
+                    winFlag = 2
+                }
+                console.log("change win flag", winFlag)
+                localStorage.setItem("winFlag", winFlag)
+                changeWinFlag()
+            }
+            else{
+                console.log("res", res, moves)
+                console.log("not win", player, box, localStorage.getItem("number"))
+                return
+            }
+        }
+        else{
+            changeWinFlag()
+        }
+    }
+
+    async function changeWinFlag(){
+        const res = await Game.ChangeWinFlag({id: localStorage.getItem("gameId"), winFlag: winFlag })
+            if (!res.result){
+                alert("Error: " + res.result)
+            }
+            else{
+                if (winFlag === (+localStorage.getItem("number") + 1)){
+                    document.getElementById("flag").style.zIndex = "10"
+                    document.getElementById("winFlag").style.display = "flex"
+                }
+                else{
+                    document.getElementById("flag").style.zIndex = "10"
+                    document.getElementById("loseFlag").style.display = "flex"
+                }
+                while (deleteGameFlag){
+                    await new Promise(resolve => setTimeout(resolve, 30000));
+                    navigate("/")
+                    await Game.DeleteGame(localStorage.getItem("gameId"))
+                    deleteGameFlag = false
+                    console.log("game is delete")
+                }
+            }
+            
+    }
+
+    async function fillMatrix(){
+        const res = await Game.getGameMoves(localStorage.getItem("gameId"))
+        let newMatrix = []
+        for (var i = 0; i < res.length; i += 1){
+            newMatrix = Object.assign([], matrix)
+            if (i % 2 == 0){
+                newMatrix[res.at(i)[1]].splice(res.at(i)[3], 1, "X")
+                setMatrix(newMatrix)
+            }
+            else{
+                newMatrix[res.at(i)[1]].splice(res.at(i)[3], 1, "O")
+                setMatrix(newMatrix)
+            }
+            
+        }
+        return
     }
 
     return(
         <div>
             <div className={classes.h1}>
                 <h1>{localStorage.getItem("gameName")}</h1>
+            </div>
+            <div className={classes.flag} id="flag">
+                <div className={classes.winFlag} id = "winFlag">
+                    <h1>Victory</h1>
+                    <button className={classes.btn} onClick={() => {navigate("/")}}>Back to the menu</button>
+                </div>
+                <div className={classes.loseFlag} id = "loseFlag">
+                    <h1>Lose</h1>
+                    <button className={classes.btn} onClick={() => {navigate("/")}}>Back to the menu</button>
+                </div>
             </div>
             <div className={classes.container}>
                 <div className={classes.player0} id="player-0">
@@ -173,7 +293,9 @@ const GamePage = () => {
                         <img className={classes.skin} src={plr0skins[localStorage.getItem('player1Skin')]} alt = "skin"/>
                     </div>
                 </div>
+                
                 <div className={classes.allField}>
+                    
                     <Box9x9 getId={makeMove}/>
                 </div>
                 <div className={classes.player1} id="player-1">

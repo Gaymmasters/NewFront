@@ -44,6 +44,9 @@ const PrivateRouteToGame = (props) => {
                     moveToLocalStore({gameId: res.id, gameName: res.name})
                     return 2 ///<Navigate to = "/gamelogin"/>
                 }
+                if (res.isBot === true){
+                    return 3
+                }
                 else{
                     console.log("success join")
                     return 3 ///<Outlet/>

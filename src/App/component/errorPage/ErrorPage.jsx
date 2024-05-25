@@ -5,7 +5,7 @@ const ErrorPage = () =>{
         ClearingLocalHost()
     }, [])
 
-    async function ClearingLocalHost(){
+    function ClearingLocalHost(){
         const keys = ["gameName","opponentId", "player1Skin", "player2Skin",
         "winFlag", "moves", "player1Login","player2Login","isPrivate", "isBot"]
         for (var k = 0; k < keys.length; k += 1){

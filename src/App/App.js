@@ -44,7 +44,7 @@ const App = () => {
             <Route path = "/game/*" element={<PrivateRouteToGame way={"/login"}/>}>
               <Route path='/game/*' element={<GamePage/>} />
             </Route>
-            <Route path = "/game/withbot/*" element={<PrivateRoute way={"/login"}/>}>
+            <Route path = "/game/withbot/*" element={<PrivateRouteToGame way={"/login"}/>}>
               <Route path='/game/withbot/*' element={<WithBotGamePage/>} />
             </Route>
           </Routes>

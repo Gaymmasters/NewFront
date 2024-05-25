@@ -23,4 +23,18 @@ export default class Game{
         }catch(error){ console.log(error) }
         
     }
+    static async ChangeWinFlag(data) {
+        try{
+            const res = await axios.put(url+"api/flagwinner",{...data})
+            return res.data
+        }catch(error){ console.log(error) }
+        
+    }
+    static async DeleteGame(id) {
+        try{
+            const res = await axios.delete(url+"api/game/"+id)
+            return res.data
+        }catch(error){ console.log(error) }
+        
+    }
 }
