@@ -33,7 +33,6 @@ const GamePage = () => {
 
     let secondPlayerWaitFlag = true ///ожидание хода
     let connectionFlag = true ///подключение игрока
-    let deleteGameFlag = true ///удаление игры
 
     const plr0skins = {0: plr0skin0, 1: plr0skin1, 2: plr0skin2, 3: plr0skin3, 4: plr0skin4, 5: plr0skin5}
     const plr1skins = {0: plr1skin0, 1: plr1skin1, 2: plr1skin2, 3: plr1skin3, 4: plr1skin4, 5: plr1skin5}
@@ -131,7 +130,11 @@ const GamePage = () => {
                     newMatrix[res.at(-1)[1]].splice(res.at(-1)[3], 1, "O") // запись хода второго игрока в матрицу
                     setMatrix(newMatrix)
                 }
-                if (res.length >= 2){
+                if ((res.length === 1) && (res[0][1] === res[0][3])){ //если первый ход сделан в центральную клетку
+                    block.style.border = '2px solid blue';
+                    box.style.border = '4px solid blue';
+                }
+                else if (res.length >= 2){
                     if (i === res.length-2){ //возвращаем ранее отмечанный предпоследний ход
                         block.style.border = '2px solid black';
                         box.style.border = '4px solid black';
@@ -139,14 +142,14 @@ const GamePage = () => {
                     if (i === res.length-1){ //отмечаем последний ход
                         block.style.border = '2px solid blue';
                         box.style.border = '4px solid blue';
-                    } 
+                    }
                 }
                 else{ //первый ход отличается от остальных
                     block.style.border = '2px solid blue';
                     box.style.border = '4px solid blue';
                     document.getElementById('b4').style.border = '4px solid black';
-                }
-                       
+                    console.log("первый ход")
+                }           
             }
         }
         console.log("matrix", matrix)
@@ -205,7 +208,8 @@ const GamePage = () => {
             (matrix[box][1] == player && matrix[box][4] == player && matrix[box][7] == player )||
             (matrix[box][2] == player && matrix[box][5] == player && matrix[box][8] == player )||
             (matrix[box][0] == player && matrix[box][4] == player && matrix[box][8] == player )||
-            (matrix[box][2] == player && matrix[box][4] == player && matrix[box][6] == player )){
+            (matrix[box][2] == player && matrix[box][4] == player && matrix[box][6] == player )||
+            ((matrix[moves.at(-1)[3]].every(item => isNaN(item))))){
                 console.log("win player", player)
                 if (player === "X"){
                     winFlag = 1
@@ -242,15 +246,21 @@ const GamePage = () => {
                     document.getElementById("flag").style.zIndex = "10"
                     document.getElementById("loseFlag").style.display = "flex"
                 }
-                while (deleteGameFlag){
-                    await new Promise(resolve => setTimeout(resolve, 30000));
-                    navigate("/")
-                    await Game.DeleteGame(localStorage.getItem("gameId"))
-                    deleteGameFlag = false
-                    console.log("game is delete")
-                }
-            }
-            
+            }        
+    }
+
+    async function deleteGame(){
+        if (localStorage.getItem("number") == 0){
+            await Game.DeleteGame(localStorage.getItem("gameId"))
+            localStorage.removeItem("gameId")
+            console.log("game is delete")
+            navigate("/")
+        }
+        else{
+            localStorage.removeItem("gameId")
+            console.log("not delete game")
+            navigate("/")
+        }
     }
 
     async function fillMatrix(){
@@ -279,11 +289,11 @@ const GamePage = () => {
             <div className={classes.flag} id="flag">
                 <div className={classes.winFlag} id = "winFlag">
                     <h1>Victory</h1>
-                    <button className={classes.btn} onClick={() => {navigate("/")}}>Back to the menu</button>
+                    <button className={classes.btn} onClick={deleteGame}>Back to the menu</button>
                 </div>
                 <div className={classes.loseFlag} id = "loseFlag">
                     <h1>Lose</h1>
-                    <button className={classes.btn} onClick={() => {navigate("/")}}>Back to the menu</button>
+                    <button className={classes.btn} onClick={deleteGame}>Back to the menu</button>
                 </div>
             </div>
             <div className={classes.container}>

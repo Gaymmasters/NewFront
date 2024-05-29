@@ -38,8 +38,6 @@ const WithBotGamePage = () => {
 
     let winFlag = 0
 
-    let deleteGameFlag = true 
-
     async function makeMove(blockId, boxId){
         if ((+localStorage.getItem("winFlag") === 0) 
         && ((JSON.parse(localStorage.getItem("moves")).length % 2) === +localStorage.getItem("number")) 
@@ -98,7 +96,6 @@ const WithBotGamePage = () => {
             }
         localStorage.setItem("moves", JSON.stringify(res))
         console.log("matrix", matrix)
-        console.log(res.at(-1)[1])
         checkWin()
     }
 
@@ -128,7 +125,8 @@ const WithBotGamePage = () => {
             (matrix[box][1] == player && matrix[box][4] == player && matrix[box][7] == player )||
             (matrix[box][2] == player && matrix[box][5] == player && matrix[box][8] == player )||
             (matrix[box][0] == player && matrix[box][4] == player && matrix[box][8] == player )||
-            (matrix[box][2] == player && matrix[box][4] == player && matrix[box][6] == player )){
+            (matrix[box][2] == player && matrix[box][4] == player && matrix[box][6] == player )||
+            ((matrix[moves.at(-1)[3]].every(item => isNaN(item))))){
                 console.log("win player", player)
                 if (player === "X"){
                     winFlag = 1
@@ -165,15 +163,15 @@ const WithBotGamePage = () => {
                     document.getElementById("flag").style.zIndex = "10"
                     document.getElementById("loseFlag").style.display = "flex"
                 }
-                while (deleteGameFlag){
-                    await new Promise(resolve => setTimeout(resolve, 30000));
-                    navigate("/")
-                    await Game.DeleteGame(localStorage.getItem("gameId"))
-                    deleteGameFlag = false
-                    console.log("game is delete")
-                }
             }
             
+    }
+
+    async function deleteGame(){
+        await Game.DeleteGame(localStorage.getItem("gameId"))
+        localStorage.removeItem("gameId")
+        console.log("game is delete")
+        navigate("/")
     }
 
     async function fillMatrix(){
@@ -203,11 +201,11 @@ const WithBotGamePage = () => {
             <div className={classes.flag} id="flag">
                 <div className={classes.winFlag} id = "winFlag">
                     <h1>Victory</h1>
-                    <button className={classes.btn} onClick={() => {navigate("/")}}>Back to the menu</button>
+                    <button className={classes.btn} onClick={deleteGame}>Back to the menu</button>
                 </div>
                 <div className={classes.loseFlag} id = "loseFlag">
                     <h1>Lose</h1>
-                    <button className={classes.btn} onClick={() => {navigate("/")}}>Back to the menu</button>
+                    <button className={classes.btn} onClick={deleteGame}>Back to the menu</button>
                 </div>
             </div>
             <div className={classes.container}>
