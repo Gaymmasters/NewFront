@@ -13,7 +13,8 @@ const LoginPage = () => {
 
     function ClearingLocalHost(){
         const keys = ["gameName","opponentId", "player1Skin", "player2Skin",
-        "winFlag", "moves", "player1Login","player2Login","isPrivate", "isBot"]
+        "winFlag", "moves", "player1Login","player2Login","isPrivate", "isBot",
+        "difficulty"]
         for (var k = 0; k < keys.length; k += 1){
             localStorage.removeItem(keys[k])
         }
@@ -56,7 +57,7 @@ const LoginPage = () => {
                     onChange={e => setData({...data,password: e.target.value})}/>
                 </div>
                 <div className='bloсk-btn'>
-                    <button  className='confirm' style={{marginTop: 69}} onClick={logIn}> Confirm </button>
+                    <button  className='confirm' style={{marginTop: 75}} onClick={logIn}> Confirm </button>
                 </div>
                 <div className='bloсk-btn'>
                     <button onClick={()=>{navigate('/reg')}}>Sing up</button>

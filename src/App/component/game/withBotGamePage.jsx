@@ -41,13 +41,14 @@ const WithBotGamePage = () => {
     async function makeMove(blockId, boxId){
         if ((+localStorage.getItem("winFlag") === 0) 
         && ((JSON.parse(localStorage.getItem("moves")).length % 2) === +localStorage.getItem("number")) 
-        && (document.getElementById(boxId).style.border === '4px solid blue')) {
+        && (document.getElementById(boxId).style.border === '4px solid rgb(60, 214, 84)')) {
             const move = boxId + blockId 
             moveList = await Game.getGameMoves(localStorage.getItem("gameId"))
             if (moveList.includes(move)){
                 return undefined
             }
-            const res = await Game.moveBot({move: move, id: localStorage.getItem('gameId')})
+            const res = await Game.moveBot({move: move, id: localStorage.getItem('gameId'),
+            difficulty: localStorage.getItem("difficulty")})
             if (!res.result){
                 alert("Error: " + res.message)
             }
@@ -63,7 +64,7 @@ const WithBotGamePage = () => {
         const res = await Game.getGameMoves(localStorage.getItem("gameId"))
         console.log("res",res)
         if (res.length === 0){
-            document.getElementById('b4').style.border = '4px solid blue'
+            document.getElementById('b4').style.border = '4px solid rgb(60, 214, 84)'
         }
         for (let i = 0; i < res.length; i++){
             const PrevBox = document.getElementById('b'+res[i][1]);
@@ -83,8 +84,8 @@ const WithBotGamePage = () => {
                     setMatrix(newMatrix)
                 }
                 if (i === res.length - 1){
-                    NextBox.style.border = '4px solid blue'
-                    block.style.border = '2px solid blue'
+                    NextBox.style.border = '4px solid rgb(60, 214, 84)'
+                    block.style.border = '2px solid rgb(60, 214, 84)'
                     console.log('i === res.length-1', res[i], block)
                 }
                 if (i === res.length - 2){

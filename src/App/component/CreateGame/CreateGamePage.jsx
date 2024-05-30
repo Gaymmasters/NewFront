@@ -1,14 +1,25 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import classes from "./createGame.module.css";
 import { useNavigate } from "react-router-dom/dist";
 import UserReg from "../../../API/RegUser";
 import { moveToLocalStore } from "../../../features/store";
 
 const CreateGamePage = () =>{
+
+    useEffect(() => {
+        const newTile = document.getElementById("tile-0")
+        newTile.style.border = "2px solid rgb(60,214,84)"
+    },[])
+
     const [data, setData] = useState({password: "", name: localStorage.getItem("login")+"'s game"});
     const navigate = useNavigate();
     const [isPrivate, setIsPrivate] = useState(false)
     const [isBot, setIsBot] = useState(false)
+    const tiles =[
+        {id: 0, level: "easy"},
+        {id: 1, level: "normal"}, 
+        {id: 2, level: "hard"}
+    ]
     async function createGame(){
 
         // can't chose two option at the same time
@@ -60,16 +71,17 @@ const CreateGamePage = () =>{
             }
             else{
                 moveToLocalStore({gameId: res.id, gameName: res.name, moves: JSON.stringify(res.moves), winFlag: res.winFlag, number: 0,
-                    player1Skin: localStorage.getItem("skin"), player1Login: localStorage.getItem("login")
+                    player1Skin: localStorage.getItem("skin"), player1Login: localStorage.getItem("login"), difficulty: level
                 });
                 navigate('/game/withbot/?id='+res.id, {replace: true})
             }
         }
     }
 
-    function hide() {
-        const Block = document.getElementById("cgp");
-        if (isPrivate){
+    /// for private game
+    function hidePass() {
+        const Block = document.getElementById("pass");
+        if (isPrivate || isBot){
             Block.style.display = "none";
             setIsPrivate(false)
         }
@@ -78,6 +90,33 @@ const CreateGamePage = () =>{
             setIsPrivate(true)
         }
     }
+
+    /// for game with bot
+
+    function hideRange() {
+        const Block = document.getElementById("range");
+        if (isBot || isPrivate){
+            Block.style.display = "none";
+            setIsBot(false)
+        }
+        else{
+            Block.style.display = "block";
+            setIsBot(true)
+        }
+    }
+
+    const [level, setLevel] = useState(0)
+    const tileClick = (id) => {
+        if (id !== level){
+            const newTile = document.getElementById("tile-"+ id)
+            const prevTile = document.getElementById("tile-"+ level)
+            newTile.style.border = "2px solid rgb(60,214,84)"
+            prevTile.style.border = "2px solid black"
+            setLevel(id)
+            console.log("level", level, newTile, id)
+        }
+    }
+
     return(
         <div className={classes.cgpContainer}>
             <h1>Create Game</h1>
@@ -96,7 +135,18 @@ const CreateGamePage = () =>{
                     className={classes.cgpCheckbox}
                     id = "checkboxB"
                     checked={isBot}/>
-                    <label to="checkboxB" onClick={() => isBot ? setIsBot(false) : setIsBot(true)}>Play with bot</label>
+                    <label to="checkboxB" onClick={hideRange}>Play with bot</label>
+                </div>
+                <div className={classes.cgpGhost} id="range">
+                    <label>Difficulty</label> 
+                    {tiles.map(tile => (
+                        <div 
+                        key={tile.id}
+                        id = {'tile-'+tile.id}
+                        className={classes.tile}
+                        onClick={() => tileClick(tile.id)}>
+                            <span>{tile.level}</span>
+                        </div>))}
                 </div>
                 <div>
                     <input 
@@ -104,10 +154,10 @@ const CreateGamePage = () =>{
                     className={classes.cgpCheckbox}
                     id = "checkboxP"
                     checked={isPrivate}/>
-                    <label to="checkboxP" onClick={hide}>Private</label>
+                    <label to="checkboxP" onClick={hidePass}>Private</label>
                 </div>
             </div>
-            <div className={classes.cgpGhost} id="cgp">
+            <div className={classes.cgpGhost2} id="pass">
                 <label>Password</label>
                 <input
                 type="password"

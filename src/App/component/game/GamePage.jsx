@@ -82,7 +82,7 @@ const GamePage = () => {
     async function makeMove(blockId, boxId){
         if ((localStorage.getItem("player1Login") !== null) && (localStorage.getItem("player2Login") !== null) && (+localStorage.getItem("winFlag") === 0) 
         && ((JSON.parse(localStorage.getItem("moves")).length % 2) === +localStorage.getItem("number")) 
-        && (document.getElementById(boxId).style.border === '4px solid blue')) {
+        && (document.getElementById(boxId).style.border === '4px solid rgb(60, 214, 84)')) {
             const move = boxId + blockId 
             moveList = await Game.getGameMoves(localStorage.getItem("gameId"))
             if (moveList.includes(move)){
@@ -99,7 +99,7 @@ const GamePage = () => {
                 const activePlayer = document.getElementById("player-"+localStorage.getItem("number"))
                 const passivePlayer = document.getElementById("player-"+((+localStorage.getItem("number") + 1) % 2))
                 activePlayer.style.borderColor = "black"
-                passivePlayer.style.borderColor = "green"
+                passivePlayer.style.borderColor = "rgb(60,214,84)"
 
                 secondPlayerWaitFlag = true
                 checkWin()
@@ -112,7 +112,7 @@ const GamePage = () => {
     async function drawMoves(){
         const res = await Game.getGameMoves(localStorage.getItem("gameId"))
         if (res.length === 0){
-            document.getElementById('b4').style.border = '4px solid blue'
+            document.getElementById('b4').style.border = '4px solid rgb(60, 214, 84)'
         }
         for (let i = 0; i < res.length; i++){
             const box = document.getElementById('b'+res[i][3]);
@@ -131,8 +131,8 @@ const GamePage = () => {
                     setMatrix(newMatrix)
                 }
                 if ((res.length === 1) && (res[0][1] === res[0][3])){ //если первый ход сделан в центральную клетку
-                    block.style.border = '2px solid blue';
-                    box.style.border = '4px solid blue';
+                    block.style.border = '2px solid rgb(60, 214, 84)';
+                    box.style.border = '4px solid rgb(60, 214, 84)';
                 }
                 else if (res.length >= 2){
                     if (i === res.length-2){ //возвращаем ранее отмечанный предпоследний ход
@@ -140,13 +140,13 @@ const GamePage = () => {
                         box.style.border = '4px solid black';
                     }
                     if (i === res.length-1){ //отмечаем последний ход
-                        block.style.border = '2px solid blue';
-                        box.style.border = '4px solid blue';
+                        block.style.border = '2px solid rgb(60, 214, 84)';
+                        box.style.border = '4px solid rgb(60, 214, 84)';
                     }
                 }
                 else{ //первый ход отличается от остальных
-                    block.style.border = '2px solid blue';
-                    box.style.border = '4px solid blue';
+                    block.style.border = '2px solid rgb(60, 214, 84)';
+                    box.style.border = '4px solid rgb(60, 214, 84)';
                     document.getElementById('b4').style.border = '4px solid black';
                     console.log("первый ход")
                 }           
@@ -171,7 +171,7 @@ const GamePage = () => {
 
                 const activePlayer = document.getElementById("player-"+localStorage.getItem("number"))
                 const passivePlayer = document.getElementById("player-"+((+localStorage.getItem("number") + 1) % 2))
-                activePlayer.style.borderColor = "green"
+                activePlayer.style.borderColor = "rgb(60,214,84)"
                 passivePlayer.style.borderColor = "black"
 
                 secondPlayerWaitFlag = false;
