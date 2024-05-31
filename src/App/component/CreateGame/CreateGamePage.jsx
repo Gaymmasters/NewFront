@@ -51,15 +51,18 @@ const CreateGamePage = () =>{
 
         // free game
         if (!isPrivate && !isBot){
-            const res = await UserReg.CreateGame({...data, isPrivate: isPrivate, isBot: isBot, player1Id: localStorage.getItem("id")})
+            if (data.name.length >= 5 && data.name.length <= 27){
+                const res = await UserReg.CreateGame({...data, isPrivate: isPrivate, isBot: isBot, player1Id: localStorage.getItem("id")})
                 if (!res.result){
                     alert("Error: " + res.message);
                 }
                 else{
                     moveToLocalStore({gameId: res.id, gameName: res.name, moves: JSON.stringify(res.moves), winFlag: res.winFlag, number: 0,
-                        player1Skin: localStorage.getItem("skin"), player1Login: localStorage.getItem("login")});
+                    player1Skin: localStorage.getItem("skin"), player1Login: localStorage.getItem("login")});
                     navigate('/game/?id='+res.id, {replace: true})
                 }
+            }
+            else alert('Invalid login length')
         }
 
         // game with bot
