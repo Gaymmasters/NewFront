@@ -74,7 +74,7 @@ const WithBotGamePage = () => {
             if (block != undefined){
                 if (i % 2 === 0){
                     block.style.backgroundImage = "url("+plr0skins[localStorage.getItem("skin")]+")"
-                    newMatrix[res.at(-1)[1]].splice(res.at(-1)[3], 1, "X")
+                    newMatrix[res.at(-2)[1]].splice(res.at(-2)[3], 1, "X")
                     setMatrix(newMatrix)                    
                 }
                 else{
@@ -97,7 +97,7 @@ const WithBotGamePage = () => {
             }
         localStorage.setItem("moves", JSON.stringify(res))
         console.log("matrix", matrix)
-        checkWin()
+        await checkWin()
     }
 
     async function checkWin(){
@@ -146,7 +146,7 @@ const WithBotGamePage = () => {
             }
         }
         else{
-            changeWinFlag()
+            await changeWinFlag()
         }
     }
 
